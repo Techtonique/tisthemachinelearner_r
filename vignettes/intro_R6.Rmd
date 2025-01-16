@@ -1,0 +1,72 @@
+---
+title: "Introduction to tisthemachinelearner, R6 interface"
+author: "T. Moudiki"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Introduction to tisthemachinelearner's R6 interface}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r}
+# Load data
+data(mtcars)
+head(mtcars)
+
+# Split features and target
+X <- as.matrix(mtcars[, -1])  # all columns except mpg
+y <- mtcars[, 1]              # mpg column
+
+# Create train/test split
+set.seed(42)
+train_idx <- sample(nrow(mtcars), size = floor(0.8 * nrow(mtcars)))
+X_train <- X[train_idx, ]
+X_test <- X[-train_idx, ]
+y_train <- y[train_idx]
+y_test <- y[-train_idx]
+```
+
+## Linear regression
+
+### Basic usage
+
+The `tisthemachinelearner` package provides an R6 interface for machine learning tasks. Let's start with a simple regression example using the built-in `mtcars` dataset:
+
+```{r}
+library(tisthemachinelearner)
+
+# Prepare the mtcars data
+x <- as.matrix(mtcars[, c("cyl", "disp", "hp")])  # predictors
+y <- mtcars$mpg  # target variable
+
+# Create and train a regressor
+reg <- Regressor$new()
+
+# The R6 interface allows for method chaining
+(preds <- reg$fit(X_train, y_train)$predict(X_test))
+```
+
+```{r}
+print(sqrt(mean((y_test - preds)^2)))
+```
+
+## Random Forest
+
+
+```{r}
+rf <- Regressor$new(model_name = "RandomForestRegressor")
+rf$fit(X_train, y_train)
+(preds <- rf$predict(X_test))
+```
+
+```{r}
+print(sqrt(mean((y_test - preds)^2)))
+```
