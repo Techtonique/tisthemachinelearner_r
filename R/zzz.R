@@ -1,31 +1,27 @@
-# Initialize the Python tisthemachinelearner module on package load
 .onLoad <- function(libname, pkgname) {
-  # Check if reticulate is available
   if (!requireNamespace("reticulate", quietly = TRUE)) {
     stop("Package 'reticulate' is required. Please install it.", call. = FALSE)
   }
-  
-  # Try to import tisthemachinelearner
-  tryCatch({
-    tml <- reticulate::import("tisthemachinelearner", delay_load = TRUE)
-  }, error = function(e) {
-    # If import fails, try to install using pip
-    message("Installing Python package 'tisthemachinelearner'...")
-    reticulate::py_install("git+https://github.com/Techtonique/tisthemachinelearner.git", pip = TRUE)
-  })
-  
-  # Verify installation was successful
-  tryCatch({
-    tml <- reticulate::import("tisthemachinelearner")
-  }, error = function(e) {
-    stop("Failed to install or import 'tisthemachinelearner'. Please install it manually using pip.", call. = FALSE)
-  })
-}
 
-# Utility function to load Python classes dynamically
-load_tisthemachinelearner_class <- function(class_name) {
-  if (!exists("tisthemachinelearner", envir = .GlobalEnv)) {
-    stop("The tisthemachinelearner module has not been loaded properly.")
-  }
-  reticulate::py_get_attr(get("tisthemachinelearner", envir = .GlobalEnv), class_name)
+  # Set the Conda environment
+  reticulate::use_condaenv("r-reticulate", required = TRUE)
+
+  # Try importing the package
+  tml <- tryCatch({
+    reticulate::import("tisthemachinelearner", delay_load = TRUE)
+  }, error = function(e) {
+    message("Python package 'tisthemachinelearner' not found in 'r-reticulate'. Installing via pip...")
+
+    # Install in the r-reticulate Conda environment
+    system("conda run -n r-reticulate python -m pip install --no-cache-dir --upgrade git+https://github.com/Techtonique/tisthemachinelearner.git", intern = TRUE)
+
+    # Try importing again after installation
+    tryCatch({
+      tml <- reticulate::import("tisthemachinelearner")
+    }, error = function(e2) {
+      stop("Failed to install or import 'tisthemachinelearner' in 'r-reticulate'. Please install it manually.", call. = FALSE)
+    })
+  })
+
+  assign("tisthemachinelearner", tml, envir = .GlobalEnv)
 }
