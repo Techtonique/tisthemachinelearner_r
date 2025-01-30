@@ -11,7 +11,7 @@
   }, error = function(e) {
     # If import fails, try to install using pip
     message("Installing Python package 'tisthemachinelearner'...")
-    reticulate::py_install("tisthemachinelearner", pip = TRUE)
+    reticulate::py_install("git+https://github.com/Techtonique/tisthemachinelearner.git", pip = TRUE)
   })
   
   # Verify installation was successful
