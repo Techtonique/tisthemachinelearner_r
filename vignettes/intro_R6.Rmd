@@ -1,0 +1,95 @@
+---
+title: "Introduction to tisthemachinelearner, R6 interface"
+author: "T. Moudiki"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Introduction to tisthemachinelearner's R6 interface}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+## Introduction
+
+The `tisthemachinelearner` package provides a simple R interface to scikit-learn models through Python's `tisthemachinelearner` package. This vignette demonstrates how to use the package with R's built-in `mtcars` dataset.
+
+## Setup
+
+First, let's load the required packages:
+
+```{r}
+library(tisthemachinelearner)
+library(reticulate)
+```
+
+## Data Preparation
+
+We'll use the classic `mtcars` dataset to predict miles per gallon (mpg) based on other car characteristics:
+
+```{r}
+# Load data
+data(mtcars)
+head(mtcars)
+
+# Split features and target
+X <- as.matrix(mtcars[, -1])  # all columns except mpg
+y <- mtcars[, 1]              # mpg column
+
+# Create train/test split
+set.seed(42)
+train_idx <- sample(nrow(mtcars), size = floor(0.8 * nrow(mtcars)))
+X_train <- X[train_idx, ]
+X_test <- X[-train_idx, ]
+y_train <- y[train_idx]
+y_test <- y[-train_idx]
+
+# R6 interface
+model <- Regressor$new(model_name = "LinearRegression")
+start <- proc.time()[3]
+model$fit(X_train, y_train)
+end <- proc.time()[3]
+cat("Time taken:", end - start, "seconds\n")
+
+start <- proc.time()[3]
+preds <- model$predict(X_test)
+end <- proc.time()[3]
+cat("Time taken:", end - start, "seconds\n")
+print(preds)
+
+# S3 interface
+start <- proc.time()[3]
+model <- regressor(X_train, y_train, model_name = "LinearRegression")
+end <- proc.time()[3]
+cat("Time taken:", end - start, "seconds\n")
+
+start <- proc.time()[3]
+preds <- predict(model, X_test)
+end <- proc.time()[3]
+cat("Time taken:", end - start, "seconds\n")
+print(preds)
+```
+
+## Conclusion
+
+This example demonstrates how to:
+
+1. Prepare R data for use with the regressor
+2. Fit different types of regression models
+3. Make predictions on new data
+4. Calculate and compare model performance
+5. Visualize results
+
+The `tisthemachinelearner` package makes it easy to use scikit-learn models with R data, combining the familiarity of R data structures with the power of Python's machine learning ecosystem.
+
+## Session Info
+
+```{r}
+sessionInfo()
+```

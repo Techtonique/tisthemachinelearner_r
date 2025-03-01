@@ -1,5 +1,6 @@
 exportPattern("^[[:alpha:]]+")
 S3method(predict, regressor)
 S3method(simulate, regressor)
+S3method(predict, booster)
 importFrom(Rcpp, evalCpp)
 useDynLib(tisthemachinelearner, .registration = TRUE)
