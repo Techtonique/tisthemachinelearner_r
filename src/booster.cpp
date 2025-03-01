@@ -31,6 +31,11 @@ List boosterCpp(NumericMatrix x,
                 bool show_progress = true,
                 bool verbose = false) {
         
+    // Set random seed
+    Environment base("package:base");
+    Function set_seed = base["set.seed"];
+    set_seed(seed);
+    
     // Initialize residuals
     NumericVector e = clone(y);
     List estimators;  // Don't pre-allocate size, we'll push_back instead
@@ -56,6 +61,9 @@ List boosterCpp(NumericMatrix x,
     for (int i = 0; i < n_estimators; i++) {
         if (Progress::check_abort())
             break;
+            
+        // Set a new seed for each iteration
+        set_seed(seed + i * 100);
             
         // Fit base learner
         List model = regressor(x, e,  // Note: using residuals 'e' instead of 'y'
