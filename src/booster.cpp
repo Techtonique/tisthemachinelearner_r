@@ -1,8 +1,24 @@
 #include <Rcpp.h>
+#include <progress.hpp>
+#include <progress_bar.hpp>
 #include <cmath>
 #include <vector>
 using namespace Rcpp;
 
+//' Fit a boosting model with neural network feature transformation
+//'
+//' @param x Input matrix
+//' @param y Target vector
+//' @param model_name Name of the base model
+//' @param n_estimators Number of boosting iterations
+//' @param learning_rate Learning rate for boosting
+//' @param tolerance Convergence tolerance
+//' @param calibration Whether to calibrate the model
+//' @param seed Random seed
+//' @param show_progress Whether to show progress bar
+//' @param verbose Whether to print detailed output
+//'
+//' @export
 // [[Rcpp::export]]
 List boosterCpp(NumericMatrix x, 
                 NumericVector y,
@@ -14,44 +30,33 @@ List boosterCpp(NumericMatrix x,
                 int seed = 123,
                 bool show_progress = true,
                 bool verbose = false) {
-    
-    Rcout << "Debug: Starting function\n";
-    
+        
     // Initialize residuals
     NumericVector e = clone(y);
     List estimators;  // Don't pre-allocate size, we'll push_back instead
     
-    Rcout << "Debug: Setting up progress bar\n";
-    // Progress bar setup through R
-    Function txtProgressBar("txtProgressBar", Environment::namespace_env("utils"));
-    Function setTxtProgressBar("setTxtProgressBar", Environment::namespace_env("utils"));
-    SEXP pb;
-    if (show_progress) {
-        pb = txtProgressBar(_["min"] = 0, _["max"] = n_estimators, _["style"] = 3);
-        // Force evaluation of the progress bar
-        pb = Rcpp::as<SEXP>(pb);
-    }
+    // Initialize progress bar
+    Progress p(n_estimators, show_progress);
     
-    Rcout << "Debug: Getting R functions\n";
     // Get reference to R's regressor function through the package namespace
     Environment pkg = Environment::namespace_env("tisthemachinelearner");
-    Rcout << "Debug: Got package environment\n";
     
     if (!pkg.exists("regressor")) {
         stop("Error: 'regressor' function not found in tisthemachinelearner package");
     }
     Function regressor = pkg["regressor"];
-    Rcout << "Debug: Got regressor function\n";
     
     // predict can be accessed from base R
     Function predict("predict");
-    Rcout << "Debug: Got predict function\n";
     
     double current_loss = R_PosInf;
     NumericVector losses(n_estimators);
     int final_n_estimators = n_estimators;
     
     for (int i = 0; i < n_estimators; i++) {
+        if (Progress::check_abort())
+            break;
+            
         // Fit base learner
         List model = regressor(x, e,  // Note: using residuals 'e' instead of 'y'
                              model_name, 
@@ -87,19 +92,7 @@ List boosterCpp(NumericMatrix x,
             }
         }
         
-        if (show_progress) {
-            try {
-                setTxtProgressBar(pb, i + 1);
-            } catch(...) {
-                Rcout << "Warning: Could not update progress bar\n";
-            }
-        }
-    }
-    
-    // Close progress bar if it was created
-    if (show_progress) {
-        Function close("close");
-        close(pb);
+        p.increment();
     }
     
     // Create and return output list
@@ -115,7 +108,12 @@ List boosterCpp(NumericMatrix x,
     return out;
 }
 
-// Add this new prediction function
+//' Predict using a boosted model
+//'
+//' @param booster A boosted model object
+//' @param x New data to predict on
+//'
+//' @export
 // [[Rcpp::export]]
 NumericVector predictBoosterCpp(List booster, NumericMatrix x) {
     List estimators = booster["estimators"];
@@ -126,10 +124,18 @@ NumericVector predictBoosterCpp(List booster, NumericMatrix x) {
     NumericVector predictions(x.nrow());
     Function predict("predict");
     
+    // Initialize progress bar
+    Progress p(n_estimators, (bool)booster["show_progress"]);
+    
     // Accumulate predictions from all estimators
     for (int i = 0; i < n_estimators; i++) {
+        if (Progress::check_abort())
+            break;
+            
         NumericVector current_pred = predict(estimators[i], x);
         predictions = predictions + learning_rate * current_pred;
+        
+        p.increment();
     }
     
     return predictions;
