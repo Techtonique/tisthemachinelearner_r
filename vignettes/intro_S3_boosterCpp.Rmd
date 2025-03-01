@@ -56,7 +56,7 @@ Now let's try Ridge regression with cross-validation for hyperparameter tuning:
 ```{r}
 # Fit booster model
 time <- proc.time()[3]
-reg_booster <- tisthemachinelearner::boosterCpp(X_train, y_train, "ExtraTreeRegressor",
+reg_booster <- tisthemachinelearner::booster(X_train, y_train, "ExtraTreeRegressor",
                                             n_estimators = 100L,
                                             learning_rate = 0.1,
                                             show_progress = FALSE,

@@ -29,9 +29,15 @@ booster(
 
 \item{learning_rate}{Learning rate for boosting}
 
+\item{tolerance}{Convergence tolerance}
+
 \item{calibration}{Whether to calibrate the model}
 
 \item{seed}{Random seed}
+
+\item{show_progress}{Whether to show progress bar}
+
+\item{verbose}{Whether to print detailed output}
 
 \item{...}{Additional arguments passed to the regressor}
 }
