@@ -57,8 +57,6 @@ List boosterCpp(NumericMatrix x,
                              model_name, 
                              _["calibration"] = calibration,
                              _["seed"] = seed + i * 100);
-                             
-        Rcout << "Debug: Fitted model " << i + 1 << "\n";
         
         // Get predictions
         NumericVector y_pred = predict(model, x);
