@@ -4,6 +4,7 @@
 #' An R6 Class that provides an interface to gradient boosting with neural network feature transformation.
 #'
 #' @export
+#' @importFrom R6 R6Class
 Booster <- R6::R6Class(
   "Booster",
   public = list(
@@ -29,7 +30,7 @@ Booster <- R6::R6Class(
     #' @param seed Random seed
     #' @param show_progress Whether to show progress bar
     #' @param verbose Whether to print detailed output
-    initialize = function(model_name, 
+    initialize = function(model_name = "ExtraTreeRegressor", 
                          n_estimators = 100L,
                          learning_rate = 0.1,
                          tolerance = 1e-4,
@@ -51,8 +52,8 @@ Booster <- R6::R6Class(
     #' Fit the boosting model to training data
     #' @param x Feature matrix
     #' @param y Target vector
+    #' @return The fitted object (invisible)
     fit = function(x, y) {
-      # Input validation
       if (!is.matrix(x) && !is.data.frame(x)) {
         stop("'x' must be a matrix or data frame")
       }
@@ -63,7 +64,6 @@ Booster <- R6::R6Class(
         stop("Length of 'y' must match number of rows in 'x'")
       }
       
-      # Fit the model using boosterCpp
       result <- boosterCpp(
         as.matrix(x), y, 
         private$.model_name,
@@ -76,7 +76,6 @@ Booster <- R6::R6Class(
         private$.verbose
       )
       
-      # Store results in public fields
       self$estimators <- result$estimators
       self$learning_rate <- result$learning_rate
       self$losses <- result$losses
@@ -88,12 +87,12 @@ Booster <- R6::R6Class(
     #' @description
     #' Make predictions on new data
     #' @param newdata New data to predict on
+    #' @return Vector of predictions
     predict = function(newdata) {
       if (!is.matrix(newdata) && !is.data.frame(newdata)) {
         stop("'newdata' must be a matrix or data frame")
       }
       
-      # Create a list with the necessary components for predictBoosterCpp
       booster_list <- list(
         estimators = self$estimators,
         learning_rate = self$learning_rate,
@@ -102,7 +101,6 @@ Booster <- R6::R6Class(
       )
       class(booster_list) <- "booster"
       
-      # Make predictions using predictBoosterCpp
       predictBoosterCpp(booster_list, as.matrix(newdata))
     }
   ),

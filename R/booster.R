@@ -13,7 +13,7 @@
 #' @param ... Additional arguments passed to the regressor
 #' 
 #' @export
-booster <- function(x, y, model_name, 
+booster <- function(x, y, model_name="ExtraTreeRegressor", 
                     n_estimators = 100L, 
                     learning_rate = 0.1,
                     tolerance = 1e-4,

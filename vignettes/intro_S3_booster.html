@@ -489,19 +489,19 @@ hyperparameter tuning:</p>
 <span id="cb3-104"><a href="#cb3-104" tabindex="-1"></a><span class="co">#&gt; Iteration 97: loss = 0.000875572</span></span>
 <span id="cb3-105"><a href="#cb3-105" tabindex="-1"></a>time <span class="ot">&lt;-</span> <span class="fu">proc.time</span>()[<span class="dv">3</span>] <span class="sc">-</span> time</span>
 <span id="cb3-106"><a href="#cb3-106" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Time taken:&quot;</span>, time, <span class="st">&quot;seconds</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
-<span id="cb3-107"><a href="#cb3-107" tabindex="-1"></a><span class="co">#&gt; Time taken: 17.761 seconds</span></span>
+<span id="cb3-107"><a href="#cb3-107" tabindex="-1"></a><span class="co">#&gt; Time taken: 16.372 seconds</span></span>
 <span id="cb3-108"><a href="#cb3-108" tabindex="-1"></a></span>
 <span id="cb3-109"><a href="#cb3-109" tabindex="-1"></a><span class="co"># Make predictions</span></span>
 <span id="cb3-110"><a href="#cb3-110" tabindex="-1"></a>time <span class="ot">&lt;-</span> <span class="fu">proc.time</span>()[<span class="dv">3</span>]</span>
 <span id="cb3-111"><a href="#cb3-111" tabindex="-1"></a>predictions <span class="ot">&lt;-</span> <span class="fu">predict</span>(reg_booster, X_test)</span>
 <span id="cb3-112"><a href="#cb3-112" tabindex="-1"></a>time <span class="ot">&lt;-</span> <span class="fu">proc.time</span>()[<span class="dv">3</span>] <span class="sc">-</span> time</span>
 <span id="cb3-113"><a href="#cb3-113" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Time taken:&quot;</span>, time, <span class="st">&quot;seconds</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
-<span id="cb3-114"><a href="#cb3-114" tabindex="-1"></a><span class="co">#&gt; Time taken: 0.152 seconds</span></span>
+<span id="cb3-114"><a href="#cb3-114" tabindex="-1"></a><span class="co">#&gt; Time taken: 0.21 seconds</span></span>
 <span id="cb3-115"><a href="#cb3-115" tabindex="-1"></a></span>
 <span id="cb3-116"><a href="#cb3-116" tabindex="-1"></a><span class="co"># RMSE </span></span>
 <span id="cb3-117"><a href="#cb3-117" tabindex="-1"></a>rmse <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">mean</span>((y_test <span class="sc">-</span> predictions)<span class="sc">^</span><span class="dv">2</span>))</span>
 <span id="cb3-118"><a href="#cb3-118" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;RMSE:&quot;</span>, rmse, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
-<span id="cb3-119"><a href="#cb3-119" tabindex="-1"></a><span class="co">#&gt; RMSE: 2.653107</span></span></code></pre></div>
+<span id="cb3-119"><a href="#cb3-119" tabindex="-1"></a><span class="co">#&gt; RMSE: 2.606159</span></span></code></pre></div>
 </div>
 <div id="session-info" class="section level2">
 <h2>Session Info</h2>
