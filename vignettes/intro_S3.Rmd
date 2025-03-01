@@ -1,0 +1,160 @@
+---
+title: "Introduction to tisthemachinelearner, S3 interface"
+author: "T. Moudiki"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Introduction to tisthemachinelearner's S3 interface}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+## Introduction
+
+The `tisthemachinelearner` package provides a simple R interface to scikit-learn models through Python's `tisthemachinelearner` package. This vignette demonstrates how to use the package with R's built-in `mtcars` dataset.
+
+## Setup
+
+First, let's load the required packages:
+
+```{r}
+library(tisthemachinelearner)
+library(reticulate)
+```
+
+## Data Preparation
+
+We'll use the classic `mtcars` dataset to predict miles per gallon (mpg) based on other car characteristics:
+
+```{r}
+# Load data
+data(mtcars)
+head(mtcars)
+
+# Split features and target
+X <- as.matrix(mtcars[, -1])  # all columns except mpg
+y <- mtcars[, 1]              # mpg column
+
+# Create train/test split
+set.seed(42)
+train_idx <- sample(nrow(mtcars), size = floor(0.8 * nrow(mtcars)))
+X_train <- X[train_idx, ]
+X_test <- X[-train_idx, ]
+y_train <- y[train_idx]
+y_test <- y[-train_idx]
+```
+
+## Linear Regression
+
+Let's start with a simple linear regression model:
+
+```{r}
+# Fit linear regression model
+start <- proc.time()[3]
+reg_linear <- tisthemachinelearner::regressor(X_train, y_train, "LinearRegression")
+end <- proc.time()[3]
+cat("Time taken:", end - start, "seconds\n")
+
+# Make predictions
+start <- proc.time()[3]
+predictions <- predict(reg_linear, X_test)
+end <- proc.time()[3]
+cat("Time taken:", end - start, "seconds\n")
+
+# Calculate RMSE
+rmse <- sqrt(mean((predictions - y_test)^2))
+cat("Linear Regression RMSE:", rmse, "\n")
+
+# Compare actual vs predicted values
+results <- data.frame(
+  Actual = y_test,
+  Predicted = predictions,
+  Difference = y_test - predictions
+)
+print(results)
+```
+
+## Ridge Regression with Cross-Validation
+
+Now let's try Ridge regression with cross-validation for hyperparameter tuning:
+
+```{r}
+# Fit ridge regression model
+start <- proc.time()[3]
+reg_ridge <- regressor(X_train, y_train, "RidgeCV", 
+                      alphas = c(0.01, 0.1, 1, 10))
+end <- proc.time()[3]
+cat("Time taken:", end - start, "seconds\n")
+
+# Make predictions
+start <- proc.time()[3]
+predictions_ridge <- predict(reg_ridge, X_test)
+end <- proc.time()[3]
+cat("Time taken:", end - start, "seconds\n")
+
+# Calculate RMSE
+rmse_ridge <- sqrt(mean((predictions_ridge - y_test)^2))
+cat("Ridge Regression RMSE:", rmse_ridge, "\n")
+```
+
+## Visualization
+
+Let's visualize how well our predictions match the actual values:
+
+```{r, fig.width=10, fig.height=5}
+# Create scatter plot of actual vs predicted values
+par(mfrow = c(1, 2))
+
+# Linear Regression plot
+plot(y_test, predictions,
+     xlab = "Actual MPG",
+     ylab = "Predicted MPG",
+     main = "Linear Regression",
+     pch = 16)
+abline(a = 0, b = 1, col = "red", lty = 2)
+
+# Ridge Regression plot
+plot(y_test, predictions_ridge,
+     xlab = "Actual MPG",
+     ylab = "Predicted MPG",
+     main = "Ridge Regression",
+     pch = 16)
+abline(a = 0, b = 1, col = "red", lty = 2)
+```
+
+## Model Comparison
+
+Compare the performance of both models:
+
+```{r}
+comparison <- data.frame(
+  Model = c("Linear Regression", "Ridge Regression"),
+  RMSE = c(rmse, rmse_ridge)
+)
+print(comparison)
+```
+
+## Conclusion
+
+This example demonstrates how to:
+
+1. Prepare R data for use with the regressor
+2. Fit different types of regression models
+3. Make predictions on new data
+4. Calculate and compare model performance
+5. Visualize results
+
+The `tisthemachinelearner` package makes it easy to use scikit-learn models with R data, combining the familiarity of R data structures with the power of Python's machine learning ecosystem.
+
+## Session Info
+
+```{r}
+sessionInfo()
+```
