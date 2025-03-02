@@ -3,6 +3,10 @@ numpy <- NULL
 sklearn <- NULL
 
 .onLoad <- function(libname, pkgname) {
+    reticulate::py_install("scipy")
+    reticulate::py_install("numpy")
+    reticulate::py_install("scikit-learn")
+
     reticulate::py_require("scipy")
     reticulate::py_require("numpy")
     reticulate::py_require("scikit-learn")
