@@ -3,7 +3,10 @@
 R interface to scikit-learn through (through Python tisthemachinelearner) with S3 and R6 interfaces.
 
 ```R
-remotes::install_github("Techtonique/tisthemachinelearner")
+options(repos = c(techtonique = "https://r-packages.techtonique.net",
+                    CRAN = "https://cloud.r-project.org"))
+                    
+install.packages("tisthemachinelearner")            
 ```
 
 ```R
