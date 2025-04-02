@@ -18,11 +18,16 @@ Imports:
     R6,
     Rcpp,
     RcppProgress
-Depends: reticulate (>= 1.18), Matrix
-Suggests: MASS
+Depends: 
+    R (>= 3.5.0),
+    reticulate (>= 1.18),
+    Matrix
+Suggests: 
+    MASS,
+    testthat
 LinkingTo: Rcpp, RcppProgress
 RoxygenNote: 7.3.2
-SystemRequirements: Anaconda (>= 3.0) or Miniconda
+SystemRequirements: Python (>= 3.6.0), Anaconda (>= 3.0) or Miniconda
 Config/reticulate:
   list(
     packages = list(
