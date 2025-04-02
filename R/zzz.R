@@ -3,16 +3,24 @@ numpy <- NULL
 sklearn <- NULL
 
 .onLoad <- function(libname, pkgname) {
-    reticulate::py_install("scipy")
-    reticulate::py_install("numpy")
-    reticulate::py_install("scikit-learn")
+    # Explicitly use r-reticulate environment
+    reticulate::use_condaenv("r-reticulate", required = TRUE)
+    
+    # Get exact path to r-reticulate environment
+    conda_path <- reticulate::conda_list()["r-reticulate", "python"]
 
-    reticulate::py_require("scipy")
-    reticulate::py_require("numpy")
-    reticulate::py_require("scikit-learn")
+    # Install required packages in r-reticulate environment
+    reticulate::py_install(c("scipy", "numpy", "scikit-learn"), 
+                          envname = "r-reticulate")
 
-  # delay load foo module (will only be loaded when accessed via $)
-  scipy <<- reticulate::import("scipy", delay_load = TRUE)
-  numpy <<- reticulate::import("numpy", delay_load = TRUE)
-  sklearn <<- reticulate::import("sklearn", delay_load = TRUE)
+    # Import packages from r-reticulate environment directly
+    scipy <<- reticulate::import_from_path("scipy", 
+                                         path = dirname(conda_path),
+                                         delay_load = TRUE)
+    numpy <<- reticulate::import_from_path("numpy", 
+                                        path = dirname(conda_path),
+                                        delay_load = TRUE)
+    sklearn <<- reticulate::import_from_path("sklearn", 
+                                         path = dirname(conda_path),
+                                         delay_load = TRUE)
 }
