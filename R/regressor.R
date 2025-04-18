@@ -31,17 +31,16 @@
 #' (rmse <- sqrt(mean((predictions - y_test)^2)))
 #' 
 regressor <- function(x, y, model_name, calibration = FALSE, seed = 42L, ...) {
+  
+  # Use the virtual environment
+  #reticulate::use_virtualenv(tisthemachinelearner::VENV_PATH)
+  #sklearn <- reticulate::import("sklearn")
+  
   # Input validation
   if (!is.matrix(x) && !is.data.frame(x)) {
     stop("'x' must be a matrix or data frame")
   }
-  if (!is.vector(y)) {
-    stop("'y' must be a vector")
-  }
-  if (length(y) != nrow(x)) {
-    stop("Length of 'y' must match number of rows in 'x'")
-  }
-  
+
   # Handle empty parameters
   params <- list(...)
   if (length(params) == 0) params <- list()
@@ -65,7 +64,7 @@ regressor <- function(x, y, model_name, calibration = FALSE, seed = 42L, ...) {
   
   # Create and fit the model
   model <- do.call(model_class, params)
-  model$fit(x_np, y_np)
+  model$fit(x_np, y)
   
   set.seed(seed)
   
@@ -115,6 +114,7 @@ regressor <- function(x, y, model_name, calibration = FALSE, seed = 42L, ...) {
 #' @param nsim Number of simulations for bootstrap/tsbootstrap
 #' @param level Confidence level for prediction intervals
 #' @param method Method for computing prediction intervals
+#' @param seed Seed for the random number generator
 #' @param ... Additional arguments
 #' @export
 #' @method predict regressor
@@ -173,6 +173,7 @@ predict.regressor <- function(object, newdata, nsim = 250L, level = 95,
 #' @param nsim Number of simulations for bootstrap/tsbootstrap
 #' @param level Confidence level for prediction intervals
 #' @param method Method for computing prediction intervals
+#' @param seed Seed for the random number generator
 #' @param ... Additional arguments
 #' @export
 #' @method simulate regressor

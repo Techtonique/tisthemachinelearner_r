@@ -1,25 +1,27 @@
 Package: tisthemachinelearner
 Type: Package
-Title: What the Package Does (Title Case)
-Version: 0.2.0
+Title: Lightweight interface to sklearn, nnetsauce and unifiedbooster with conformal prediction
+Version: 0.3.0
 Authors@R: c(
     person(
-      "Jane", "Doe",
-      email = "jane@example.com",
+      "T.", "Moudiki",
+      email = "thierry.moudiki@gmail.com",
       role = c("aut", "cre")
     )
   )
-Description: More about what it does (maybe more than one line).
-    Continuation lines should be indented.
-License: What license is it under?
+Description: Lightweight interface to Python packages sklearn, nnetsauce and unifiedbooster with conformal prediction.
+Date: 2025-04-18
+License: BSD_3_clause Clear + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Imports:
+    reticulate,
     R6,
     Rcpp,
     RcppProgress
 Depends: 
     R (>= 3.5.0),
+    processx,
     reticulate (>= 1.18),
     Matrix
 Suggests: 
@@ -27,7 +29,7 @@ Suggests:
     testthat
 LinkingTo: Rcpp, RcppProgress
 RoxygenNote: 7.3.2
-SystemRequirements: Python (>= 3.6.0), Anaconda (>= 3.0) or Miniconda
+SystemRequirements: Python (>= 3.6) with pip and virtualenv support
 Config/reticulate:
   list(
     packages = list(

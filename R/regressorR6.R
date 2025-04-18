@@ -65,10 +65,10 @@ Regressor <- R6::R6Class(
       if (!calibration) {
         # Convert inputs to numpy arrays
         x_np <- reticulate::array_reshape(x, c(nrow(x), ncol(x)))
-        y_np <- reticulate::array_reshape(y, c(length(y), 1))
+        #y_np <- reticulate::array_reshape(y, c(length(y), 1))
         
         # Fit the model
-        private$.model$fit(x_np, y_np)
+        private$.model$fit(x_np, y)
         
         # Get in-sample predictions and residuals
         y_pred <- private$.model$predict(x_np)
@@ -84,10 +84,10 @@ Regressor <- R6::R6Class(
         
         # Convert training data to numpy arrays
         x_train_np <- reticulate::array_reshape(x_train, c(nrow(x_train), ncol(x_train)))
-        y_train_np <- reticulate::array_reshape(y_train, c(length(y_train), 1))
+        #y_train_np <- reticulate::array_reshape(y_train, c(length(y_train), 1))
         
         # Train model on training set
-        private$.model$fit(x_train_np, y_train_np)
+        private$.model$fit(x_train_np, y_train)
         
         # Get calibration predictions and residuals
         x_cal_np <- reticulate::array_reshape(x_cal, c(nrow(x_cal), ncol(x_cal)))
