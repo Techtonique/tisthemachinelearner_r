@@ -87,7 +87,7 @@ regressor <- function(x, y, model_name, calibration = FALSE, seed = 42L, ...) {
     #y_train_np <- reticulate::array_reshape(y_train, c(length(y_train), 1))
     
     # Train model on training set
-    model$fit(x_train, y_train)
+    model$fit(x_train, y_train, ...)
     
     # Get calibration predictions and residuals
     #x_cal_np <- reticulate::array_reshape(x_cal, c(nrow(x_cal), ncol(x_cal)))
