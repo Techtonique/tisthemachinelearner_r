@@ -52,11 +52,11 @@ regressor <- function(x, y, model_name, calibration = FALSE, seed = 42L, ...) {
   # Get the model class from sklearn
   model_class <- NULL
   # Check common sklearn modules
-  if (is.null(model_class)) model_class <- sklearn$linear_model$`__dict__`[[model_name]]
-  if (is.null(model_class)) model_class <- sklearn$ensemble$`__dict__`[[model_name]]
-  if (is.null(model_class)) model_class <- sklearn$svm$`__dict__`[[model_name]]
-  if (is.null(model_class)) model_class <- sklearn$tree$`__dict__`[[model_name]]
-  if (is.null(model_class)) model_class <- sklearn$neighbors$`__dict__`[[model_name]]
+  if (is.null(model_class)) model_class <- tisthemachinelearner::sklearn$linear_model$`__dict__`[[model_name]]
+  if (is.null(model_class)) model_class <- tisthemachinelearner::sklearn$ensemble$`__dict__`[[model_name]]
+  if (is.null(model_class)) model_class <- tisthemachinelearner::sklearn$svm$`__dict__`[[model_name]]
+  if (is.null(model_class)) model_class <- tisthemachinelearner::sklearn$tree$`__dict__`[[model_name]]
+  if (is.null(model_class)) model_class <- tisthemachinelearner::sklearn$neighbors$`__dict__`[[model_name]]
   
   if (is.null(model_class)) {
     stop(sprintf("Model '%s' not found in common scikit-learn modules. Please check the model name.", model_name))
