@@ -3,6 +3,10 @@ VENV_PATH <- NULL
 
 #' @export
 sklearn <- NULL  
+#' @export 
+numpy <- NULL
+#' @export
+pandas <- NULL
 
 #' @import reticulate
 .onLoad <- function(libname, pkgname) {
@@ -59,7 +63,11 @@ sklearn <- NULL
     sklearn <<- reticulate::import("sklearn", delay_load = TRUE)
   }, error = function(e) {
     reticulate::py_install("scikit-learn")
+    reticulate::py_install("numpy")
+    reticulate::py_install("pandas")
     reticulate::use_virtualenv("r-reticulate")
     sklearn <<- reticulate::import_from_path("sklearn", path = "r-reticulate")
+    numpy <<- reticulate::import_from_path("numpy", path = "r-reticulate")
+    pandas <<- reticulate::import_from_path("pandas", path = "r-reticulate")
   })
 }
