@@ -45,32 +45,36 @@ pandas <- NULL
     }, error = function(e) {
       stop("Failed to install Python packages: ", e$message)
     })
-  }  
+  }
+
   # Use the virtual environment
   tryCatch({
     reticulate::use_virtualenv(VENV_PATH, required = TRUE)
-  }, error = function(e) {
-    stop("Failed to use virtual environment: ", e$message)
-  })  
-  # Verify the installed packages
-  py_config <- reticulate::py_config()
-  message("Using Python environment: ", py_config$python)
- }, error = function(e) {
-    message("Using system Python environment. ") # e.g on Colab
-  })  
-  # Import sklearn lazily
-  tryCatch({
-    message("Installing sklearn from r-reticulate...")
-    reticulate::py_install("scikit-learn")
-    reticulate::py_install("numpy")
-    reticulate::py_install("pandas")
-    reticulate::use_virtualenv("r-reticulate", required = TRUE)
-    message("Importing sklearn...")
     sklearn <<- reticulate::import("sklearn", delay_load = TRUE)
     numpy <<- reticulate::import("numpy", delay_load = TRUE)
     pandas <<- reticulate::import("pandas", delay_load = TRUE)    
-  }, error = function(e) {        
-    message("Importing sklearn from Global Env...")
+  }, error = function(e) {
+    message("Failed to use virtual environment: ", e$message)
+    # Import sklearn lazily
+    tryCatch({
+      message("Installing sklearn from r-reticulate...")
+      reticulate::py_install("scikit-learn")
+      reticulate::py_install("numpy")
+      reticulate::py_install("pandas")
+      reticulate::use_virtualenv("r-reticulate", required = TRUE)
+      message("Importing sklearn...")
+      sklearn <<- reticulate::import("sklearn", delay_load = TRUE)
+      numpy <<- reticulate::import("numpy", delay_load = TRUE)
+      pandas <<- reticulate::import("pandas", delay_load = TRUE)    
+    }, error = function(e) {        
+      message("Importing sklearn from Global Env...")
+      sklearn <<- reticulate::import("sklearn", delay_load = TRUE)
+    })
+  })    
+ }, error = function(e) {
+    message("Using system Python environment.") # e.g on Colab
     sklearn <<- reticulate::import("sklearn", delay_load = TRUE)
-  })
+    numpy <<- reticulate::import("numpy", delay_load = TRUE)
+    pandas <<- reticulate::import("pandas", delay_load = TRUE)        
+  })  
 }
