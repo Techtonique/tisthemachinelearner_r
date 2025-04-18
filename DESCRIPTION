@@ -21,7 +21,6 @@ Imports:
     RcppProgress
 Depends: 
     R (>= 3.5.0),
-    processx,
     reticulate (>= 1.18),
     Matrix
 Suggests: 

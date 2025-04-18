@@ -25,6 +25,8 @@
 
 \item{method}{Method for computing prediction intervals}
 
+\item{seed}{Seed for the random number generator}
+
 \item{...}{Additional arguments}
 }
 \description{
