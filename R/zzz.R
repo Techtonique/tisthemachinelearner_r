@@ -69,12 +69,26 @@ pandas <- NULL
     }, error = function(e) {        
       message("Importing sklearn from Global Env...")
       sklearn <<- reticulate::import("sklearn", delay_load = TRUE)
+      numpy <<- reticulate::import("numpy", delay_load = TRUE)
+      pandas <<- reticulate::import("pandas", delay_load = TRUE)        
     })
   })    
  }, error = function(e) {
-    message("Using system Python environment.") # e.g on Colab
-    sklearn <<- reticulate::import("sklearn", delay_load = TRUE)
-    numpy <<- reticulate::import("numpy", delay_load = TRUE)
-    pandas <<- reticulate::import("pandas", delay_load = TRUE)        
+    tryCatch({
+      message("Installing sklearn from r-reticulate...")
+      reticulate::py_install("scikit-learn")
+      reticulate::py_install("numpy")
+      reticulate::py_install("pandas")
+      reticulate::use_virtualenv("r-reticulate", required = TRUE)
+      message("Importing sklearn...")
+      sklearn <<- reticulate::import("sklearn", delay_load = TRUE)
+      numpy <<- reticulate::import("numpy", delay_load = TRUE)
+      pandas <<- reticulate::import("pandas", delay_load = TRUE)    
+    }, error = function(e) {        
+      message("Importing sklearn from Global Env...")
+      sklearn <<- reticulate::import("sklearn", delay_load = TRUE)
+      numpy <<- reticulate::import("numpy", delay_load = TRUE)
+      pandas <<- reticulate::import("pandas", delay_load = TRUE)        
+    })
   })  
 }
