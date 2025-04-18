@@ -52,8 +52,14 @@ sklearn <- NULL
   py_config <- reticulate::py_config()
   message("Using Python environment: ", py_config$python)
  }, error = function(e) {
-    message("Using system Python environment: ")
+    message("Using system Python environment: ") # e.g on Colab
   })  
   # Import sklearn lazily
-  sklearn <<- reticulate::import("sklearn", delay_load = TRUE)
+  tryCatch({
+    sklearn <<- reticulate::import("sklearn", delay_load = TRUE)
+  }, error = function(e) {
+    reticulate::py_install("scikit-learn")
+    reticulate::use_virtualenv("r-reticulate")
+    sklearn <<- reticulate::import_from_path("sklearn", path = "r-reticulate")
+  })
 }
