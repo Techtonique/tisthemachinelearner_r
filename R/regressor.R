@@ -46,8 +46,8 @@ regressor <- function(x, y, model_name, calibration = FALSE, seed = 42L, ...) {
   if (length(params) == 0) params <- list()
   
   # Convert inputs to numpy arrays
-  x_np <- reticulate::array_reshape(x, c(nrow(x), ncol(x)))
-  y_np <- reticulate::array_reshape(y, c(length(y), 1))
+  #x_np <- reticulate::array_reshape(x, c(nrow(x), ncol(x)))
+  #y_np <- reticulate::array_reshape(y, c(length(y), 1))
   
   # Get the model class from sklearn
   model_class <- NULL
@@ -64,13 +64,13 @@ regressor <- function(x, y, model_name, calibration = FALSE, seed = 42L, ...) {
   
   # Create and fit the model
   model <- do.call(model_class, params)
-  model$fit(x_np, y)
+  model$fit(x, y)
   
   set.seed(seed)
   
   if (!calibration) {    
     # Get in-sample predictions and residuals
-    y_pred <- model$predict(x_np)
+    y_pred <- model$predict(x)
     residuals <- y - y_pred
     df_residual <- length(y) - ncol(x) - 1
   } else {
@@ -83,15 +83,15 @@ regressor <- function(x, y, model_name, calibration = FALSE, seed = 42L, ...) {
     y_cal <- y[-train_idx]
     
     # Convert training data to numpy arrays
-    x_train_np <- reticulate::array_reshape(x_train, c(nrow(x_train), ncol(x_train)))
-    y_train_np <- reticulate::array_reshape(y_train, c(length(y_train), 1))
+    #x_train_np <- reticulate::array_reshape(x_train, c(nrow(x_train), ncol(x_train)))
+    #y_train_np <- reticulate::array_reshape(y_train, c(length(y_train), 1))
     
     # Train model on training set
-    model$fit(x_train_np, y_train_np)
+    model$fit(x_train, y_train)
     
     # Get calibration predictions and residuals
-    x_cal_np <- reticulate::array_reshape(x_cal, c(nrow(x_cal), ncol(x_cal)))
-    y_cal_pred <- model$predict(x_cal_np)
+    #x_cal_np <- reticulate::array_reshape(x_cal, c(nrow(x_cal), ncol(x_cal)))
+    y_cal_pred <- model$predict(x_cal)
     residuals <- y_cal - y_cal_pred
     df_residual <- length(y_cal) - ncol(x_cal) - 1
   }
@@ -126,8 +126,8 @@ predict.regressor <- function(object, newdata, nsim = 250L, level = 95,
   method <- match.arg(method)
   
   # Convert newdata to numpy array
-  newdata_np <- reticulate::array_reshape(newdata, c(nrow(newdata), ncol(newdata)))
-  pred <- as.vector(object$model$predict(newdata_np))
+  #newdata_np <- reticulate::array_reshape(newdata, c(nrow(newdata), ncol(newdata)))
+  pred <- as.vector(object$model$predict(newdata))
   
   if (method == "none") {
     return(pred)
@@ -184,8 +184,8 @@ simulate.regressor <- function(object, newdata, nsim = 250L, level = 95,
   method <- match.arg(method)  
   
   # Convert newdata to numpy array and get predictions
-  newdata_np <- reticulate::array_reshape(newdata, c(nrow(newdata), ncol(newdata)))
-  pred <- as.vector(object$model$predict(newdata_np))
+  #newdata_np <- reticulate::array_reshape(newdata, c(nrow(newdata), ncol(newdata)))
+  pred <- as.vector(object$model$predict(newdata))
   
   if (method == "bootstrap") {
     errors <- matrix(sample(object$residuals, size = length(pred) * nsim, replace = TRUE), 

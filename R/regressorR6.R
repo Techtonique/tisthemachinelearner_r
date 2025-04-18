@@ -64,14 +64,14 @@ Regressor <- R6::R6Class(
       
       if (!calibration) {
         # Convert inputs to numpy arrays
-        x_np <- reticulate::array_reshape(x, c(nrow(x), ncol(x)))
+        #x_np <- reticulate::array_reshape(x, c(nrow(x), ncol(x)))
         #y_np <- reticulate::array_reshape(y, c(length(y), 1))
         
         # Fit the model
-        private$.model$fit(x_np, y)
+        private$.model$fit(x, y)
         
         # Get in-sample predictions and residuals
-        y_pred <- private$.model$predict(x_np)
+        y_pred <- private$.model$predict(x)
         self$residuals <- y - y_pred
         self$df.residual <- length(y) - ncol(x) - 1
       } else {
@@ -83,15 +83,15 @@ Regressor <- R6::R6Class(
         y_cal <- y[-train_idx]
         
         # Convert training data to numpy arrays
-        x_train_np <- reticulate::array_reshape(x_train, c(nrow(x_train), ncol(x_train)))
+        #x_train_np <- reticulate::array_reshape(x_train, c(nrow(x_train), ncol(x_train)))
         #y_train_np <- reticulate::array_reshape(y_train, c(length(y_train), 1))
         
         # Train model on training set
-        private$.model$fit(x_train_np, y_train)
+        private$.model$fit(x_train, y_train)
         
         # Get calibration predictions and residuals
-        x_cal_np <- reticulate::array_reshape(x_cal, c(nrow(x_cal), ncol(x_cal)))
-        y_cal_pred <- private$.model$predict(x_cal_np)
+        #x_cal_np <- reticulate::array_reshape(x_cal, c(nrow(x_cal), ncol(x_cal)))
+        y_cal_pred <- private$.model$predict(x_cal)
         self$residuals <- y_cal - y_cal_pred
         self$df.residual <- length(y_cal) - ncol(x_cal) - 1
       }
@@ -112,8 +112,8 @@ Regressor <- R6::R6Class(
       method <- match.arg(method)
       
       # Convert newdata to numpy array
-      newdata_np <- reticulate::array_reshape(newdata, c(nrow(newdata), ncol(newdata)))
-      pred <- as.vector(private$.model$predict(newdata_np))
+      #newdata_np <- reticulate::array_reshape(newdata, c(nrow(newdata), ncol(newdata)))
+      pred <- as.vector(private$.model$predict(newdata))
       
       if (method == "none") {
         return(pred)
