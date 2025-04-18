@@ -64,7 +64,7 @@ regressor <- function(x, y, model_name, calibration = FALSE, seed = 42L, ...) {
   
   # Create and fit the model
   model <- do.call(model_class, params)
-  model$fit(x, y)
+  model$fit(x, y, ...)
   
   set.seed(seed)
   

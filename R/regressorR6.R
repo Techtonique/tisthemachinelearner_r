@@ -48,7 +48,7 @@ Regressor <- R6::R6Class(
     #' @param y Target vector
     #' @param calibration Logical flag to indicate if calibration of residuals should be used
     #' @param seed Seed for random number generator
-    fit = function(x, y, calibration = FALSE, seed = 42L) {
+    fit = function(x, y, calibration = FALSE, seed = 42L, ...) {
       # Input validation
       if (!is.matrix(x) && !is.data.frame(x)) {
         stop("'x' must be a matrix or data frame")
@@ -68,7 +68,7 @@ Regressor <- R6::R6Class(
         #y_np <- reticulate::array_reshape(y, c(length(y), 1))
         
         # Fit the model
-        private$.model$fit(x, y)
+        private$.model$fit(x, y, ...)
         
         # Get in-sample predictions and residuals
         y_pred <- private$.model$predict(x)
