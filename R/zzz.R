@@ -65,9 +65,9 @@ pandas <- NULL
     reticulate::py_install("scikit-learn")
     reticulate::py_install("numpy")
     reticulate::py_install("pandas")
-    reticulate::use_virtualenv("r-reticulate")
-    sklearn <<- reticulate::import_from_path("sklearn", path = "r-reticulate")
-    numpy <<- reticulate::import_from_path("numpy", path = "r-reticulate")
-    pandas <<- reticulate::import_from_path("pandas", path = "r-reticulate")
+    reticulate::use_virtualenv("r-reticulate", required = TRUE)
+    sklearn <<- reticulate::import("sklearn", delay_load = TRUE)
+    numpy <<- reticulate::import("numpy", delay_load = TRUE)
+    pandas <<- reticulate::import("pandas", delay_load = TRUE)
   })
 }
