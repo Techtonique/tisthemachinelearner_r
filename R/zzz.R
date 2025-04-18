@@ -65,7 +65,7 @@ pandas <- NULL
     reticulate::py_install("numpy")
     reticulate::py_install("pandas")
     reticulate::use_virtualenv("r-reticulate", required = TRUE)
-    message("Re-importing sklearn...")
+    message("Importing sklearn...")
     sklearn <<- reticulate::import("sklearn", delay_load = TRUE)
     numpy <<- reticulate::import("numpy", delay_load = TRUE)
     pandas <<- reticulate::import("pandas", delay_load = TRUE)    
