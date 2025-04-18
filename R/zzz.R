@@ -10,7 +10,6 @@ pandas <- NULL
 
 #' @import reticulate
 .onLoad <- function(libname, pkgname) {
-
   tryCatch({
   # Specify the name of the virtual environment
   env_name <- "tisthemachinelearner_env"
@@ -46,8 +45,7 @@ pandas <- NULL
       stop("Failed to install Python packages: ", e$message)
     })
   }
-
-  # Use the virtual environment
+  # Use the 'Global', persistent virtual environment
   tryCatch({
     reticulate::use_virtualenv(VENV_PATH, required = TRUE)
     sklearn <<- reticulate::import("sklearn", delay_load = TRUE)
@@ -73,7 +71,7 @@ pandas <- NULL
       pandas <<- reticulate::import("pandas", delay_load = TRUE)        
     })
   })    
- }, error = function(e) {
+ }, error = function(e) { # If using 'Global' virtual environment fails, use  the default local 'r-reticulate'
     tryCatch({
       message("Installing sklearn from r-reticulate...")
       reticulate::py_install("scikit-learn")
