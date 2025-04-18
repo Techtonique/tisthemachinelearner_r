@@ -6,6 +6,8 @@ sklearn <- NULL
 
 #' @import reticulate
 .onLoad <- function(libname, pkgname) {
+
+  tryCatch({
   # Specify the name of the virtual environment
   env_name <- "tisthemachinelearner_env"
   
@@ -39,19 +41,19 @@ sklearn <- NULL
     }, error = function(e) {
       stop("Failed to install Python packages: ", e$message)
     })
-  }
-  
+  }  
   # Use the virtual environment
   tryCatch({
     reticulate::use_virtualenv(VENV_PATH, required = TRUE)
   }, error = function(e) {
     stop("Failed to use virtual environment: ", e$message)
-  })
-  
+  })  
   # Verify the installed packages
   py_config <- reticulate::py_config()
   message("Using Python environment: ", py_config$python)
-  
+ }, error = function(e) {
+    message("Using system Python environment: ")
+  })  
   # Import sklearn lazily
   sklearn <<- reticulate::import("sklearn", delay_load = TRUE)
 }
