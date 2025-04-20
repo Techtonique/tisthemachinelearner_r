@@ -63,6 +63,19 @@ end <- proc.time()[3]
 cat("Time taken:", end - start, "seconds\n")
 print(preds)
 
+model <- Regressor$new(model_name = "ARDRegression")
+start <- proc.time()[3]
+model$fit(X_train, y_train)
+end <- proc.time()[3]
+cat("Time taken:", end - start, "seconds\n")
+
+start <- proc.time()[3]
+preds <- model$predict(X_test, method="bayesian")
+end <- proc.time()[3]
+cat("Time taken:", end - start, "seconds\n")
+print(preds)
+
+
 # S3 interface
 start <- proc.time()[3]
 model <- regressor(X_train, y_train, model_name = "GaussianProcessRegressor")

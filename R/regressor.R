@@ -56,9 +56,11 @@ regressor <- function(x, y, model_name,
   model_class <- NULL
   # Check common sklearn modules
   if (is.null(model_class)) model_class <- tisthemachinelearner::sklearn$cross_decomposition$`__dict__`[[model_name]]
+  if (is.null(model_class)) model_class <- tisthemachinelearner::sklearn$isotonic$`__dict__`[[model_name]]
   if (is.null(model_class)) model_class <- tisthemachinelearner::sklearn$kernel_ridge$`__dict__`[[model_name]]
   if (is.null(model_class)) model_class <- tisthemachinelearner::sklearn$linear_model$`__dict__`[[model_name]]
   if (is.null(model_class)) model_class <- tisthemachinelearner::sklearn$ensemble$`__dict__`[[model_name]]
+  if (is.null(model_class)) model_class <- tisthemachinelearner::sklearn$gaussian_process$`__dict__`[[model_name]]
   if (is.null(model_class)) model_class <- tisthemachinelearner::sklearn$svm$`__dict__`[[model_name]]
   if (is.null(model_class)) model_class <- tisthemachinelearner::sklearn$tree$`__dict__`[[model_name]]
   if (is.null(model_class)) model_class <- tisthemachinelearner::sklearn$neighbors$`__dict__`[[model_name]]
@@ -132,8 +134,8 @@ predict.regressor <- function(object, newdata, nsim = 250L, level = 95,
   
   if (method == "bayesian") {
     pred <- as.vector(object$model$predict(newdata, return_std=TRUE))
-    y_mean <- as.vector(pred$y_mean)
-    y_std <- as.vector(pred$y_std)
+    y_mean <- as.vector(pred[[1]])
+    y_std <- as.vector(pred[[2]])
     multiplier <- stats::qnorm(1 - (100 - level)/200)
     lower <- y_mean - multiplier*y_std
     upper <- y_mean + multiplier*y_std

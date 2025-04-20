@@ -118,8 +118,8 @@ Regressor <- R6::R6Class(
 
       if (method == "bayesian") {
         pred <- private$.model$predict(newdata, return_std=TRUE)
-        y_mean <- as.vector(pred$y_mean)
-        y_std <- as.vector(pred$y_std)
+        y_mean <- as.vector(pred[[1]])
+        y_std <- as.vector(pred[[2]])
         multiplier <- stats::qnorm(1 - (100 - level)/200)
         lower <- y_mean - multiplier*y_std
         upper <- y_mean + multiplier*y_std
