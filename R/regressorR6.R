@@ -24,8 +24,12 @@ Regressor <- R6::R6Class(
       # Get the model class from sklearn
       model_class <- NULL
       # Check common sklearn modules
+      if (is.null(model_class)) model_class <- tisthemachinelearner::sklearn$cross_decomposition$`__dict__`[[model_name]]
+      if (is.null(model_class)) model_class <- tisthemachinelearner::sklearn$isotonic$`__dict__`[[model_name]]
+      if (is.null(model_class)) model_class <- tisthemachinelearner::sklearn$kernel_ridge$`__dict__`[[model_name]]
       if (is.null(model_class)) model_class <- tisthemachinelearner::sklearn$linear_model$`__dict__`[[model_name]]
       if (is.null(model_class)) model_class <- tisthemachinelearner::sklearn$ensemble$`__dict__`[[model_name]]
+      if (is.null(model_class)) model_class <- tisthemachinelearner::sklearn$gaussian_process$`__dict__`[[model_name]]
       if (is.null(model_class)) model_class <- tisthemachinelearner::sklearn$svm$`__dict__`[[model_name]]
       if (is.null(model_class)) model_class <- tisthemachinelearner::sklearn$tree$`__dict__`[[model_name]]
       if (is.null(model_class)) model_class <- tisthemachinelearner::sklearn$neighbors$`__dict__`[[model_name]]
@@ -107,12 +111,21 @@ Regressor <- R6::R6Class(
     #' @param level Confidence level for prediction intervals
     #' @param seed Random seed
     predict = function(newdata, method = c("none", "splitconformal", "surrogate", 
-                                         "bootstrap", "tsbootstrap"),
+                                         "bootstrap", "tsbootstrap", "bayesian"),
                       nsim = 250L, level = 95, seed = 123) {
-      method <- match.arg(method)
       
-      # Convert newdata to numpy array
-      #newdata_np <- reticulate::array_reshape(newdata, c(nrow(newdata), ncol(newdata)))
+      method <- match.arg(method)
+
+      if (method == "bayesian") {
+        pred <- private$.model$predict(newdata, return_std=TRUE)
+        y_mean <- as.vector(pred$y_mean)
+        y_std <- as.vector(pred$y_std)
+        multiplier <- stats::qnorm(1 - (100 - level)/200)
+        lower <- y_mean - multiplier*y_std
+        upper <- y_mean + multiplier*y_std
+        return(cbind(fit = drop(y_mean), lwr = lower, upr = upper))
+      }
+            
       pred <- as.vector(private$.model$predict(newdata))
       
       if (method == "none") {

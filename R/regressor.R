@@ -30,7 +30,10 @@
 #' # Calculate RMSE
 #' (rmse <- sqrt(mean((predictions - y_test)^2)))
 #' 
-regressor <- function(x, y, model_name, calibration = FALSE, seed = 42L, ...) {
+regressor <- function(x, y, model_name, 
+                      calibration = FALSE, 
+                      seed = 42L, 
+                      ...) {
   
   # Use the virtual environment
   #reticulate::use_virtualenv(tisthemachinelearner::VENV_PATH)
@@ -52,6 +55,8 @@ regressor <- function(x, y, model_name, calibration = FALSE, seed = 42L, ...) {
   # Get the model class from sklearn
   model_class <- NULL
   # Check common sklearn modules
+  if (is.null(model_class)) model_class <- tisthemachinelearner::sklearn$cross_decomposition$`__dict__`[[model_name]]
+  if (is.null(model_class)) model_class <- tisthemachinelearner::sklearn$kernel_ridge$`__dict__`[[model_name]]
   if (is.null(model_class)) model_class <- tisthemachinelearner::sklearn$linear_model$`__dict__`[[model_name]]
   if (is.null(model_class)) model_class <- tisthemachinelearner::sklearn$ensemble$`__dict__`[[model_name]]
   if (is.null(model_class)) model_class <- tisthemachinelearner::sklearn$svm$`__dict__`[[model_name]]
@@ -120,10 +125,20 @@ regressor <- function(x, y, model_name, calibration = FALSE, seed = 42L, ...) {
 #' @method predict regressor
 predict.regressor <- function(object, newdata, nsim = 250L, level = 95,
                               method = c("none", "splitconformal", "surrogate", 
-                                         "bootstrap", "tsbootstrap"),
+                                         "bootstrap", "tsbootstrap", "bayesian"),
                               seed = 123, ...) {
   
   method <- match.arg(method)
+  
+  if (method == "bayesian") {
+    pred <- as.vector(object$model$predict(newdata, return_std=TRUE))
+    y_mean <- as.vector(pred$y_mean)
+    y_std <- as.vector(pred$y_std)
+    multiplier <- stats::qnorm(1 - (100 - level)/200)
+    lower <- y_mean - multiplier*y_std
+    upper <- y_mean + multiplier*y_std
+    return(cbind(fit = drop(y_mean), lwr = lower, upr = upper))
+  }
   
   # Convert newdata to numpy array
   #newdata_np <- reticulate::array_reshape(newdata, c(nrow(newdata), ncol(newdata)))
@@ -178,10 +193,20 @@ predict.regressor <- function(object, newdata, nsim = 250L, level = 95,
 #' @export
 #' @method simulate regressor
 simulate.regressor <- function(object, newdata, nsim = 250L, level = 95,
-                               method = c("surrogate", "bootstrap", "tsbootstrap"),
+                               method = c("surrogate", "bootstrap", 
+                                          "tsbootstrap", "bayesian"),
                                seed = 123, ...) {
   set.seed(seed)  
   method <- match.arg(method)  
+  
+  if (method == "bayesian") {
+    pred <- as.vector(object$model$predict(newdata, return_std=TRUE))
+    y_mean <- as.vector(pred$y_mean)
+    y_std <- as.vector(pred$y_std)
+    multiplier <- stats::qnorm(1 - (100 - level)/200)
+    lower <- y_mean - multiplier*y_std
+    upper <- y_mean + multiplier*y_std
+  }
   
   # Convert newdata to numpy array and get predictions
   #newdata_np <- reticulate::array_reshape(newdata, c(nrow(newdata), ncol(newdata)))
