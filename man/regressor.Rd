@@ -51,7 +51,7 @@ Create a new Regressor object
 \subsection{Method \code{fit()}}{
 Fit the model to training data
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Regressor$fit(x, y, calibration = FALSE, seed = 42L)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Regressor$fit(x, y, calibration = FALSE, seed = 42L, ...)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -76,7 +76,8 @@ Make predictions on new data
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Regressor$predict(
   newdata,
-  method = c("none", "splitconformal", "surrogate", "bootstrap", "tsbootstrap"),
+  method = c("none", "splitconformal", "surrogate", "bootstrap", "tsbootstrap",
+    "bayesian"),
   nsim = 250L,
   level = 95,
   seed = 123

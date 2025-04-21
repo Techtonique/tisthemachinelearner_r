@@ -88,8 +88,7 @@ Now let's try Ridge regression with cross-validation for hyperparameter tuning:
 ```{r}
 # Fit ridge regression model
 start <- proc.time()[3]
-reg_ridge <- regressor(X_train, y_train, "RidgeCV", 
-                      alphas = c(0.01, 0.1, 1, 10))
+reg_ridge <- regressor(X_train, y_train, "RidgeCV")
 end <- proc.time()[3]
 cat("Time taken:", end - start, "seconds\n")
 

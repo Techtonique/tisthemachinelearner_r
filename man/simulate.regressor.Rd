@@ -9,7 +9,7 @@
   newdata,
   nsim = 250L,
   level = 95,
-  method = c("surrogate", "bootstrap", "tsbootstrap"),
+  method = c("surrogate", "bootstrap", "tsbootstrap", "bayesian"),
   seed = 123,
   ...
 )

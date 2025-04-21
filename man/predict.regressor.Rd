@@ -9,7 +9,8 @@
   newdata,
   nsim = 250L,
   level = 95,
-  method = c("none", "splitconformal", "surrogate", "bootstrap", "tsbootstrap"),
+  method = c("none", "splitconformal", "surrogate", "bootstrap", "tsbootstrap",
+    "bayesian"),
   seed = 123,
   ...
 )
