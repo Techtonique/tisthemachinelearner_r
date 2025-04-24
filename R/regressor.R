@@ -64,6 +64,11 @@ regressor <- function(x, y, model_name,
   if (is.null(model_class)) model_class <- tisthemachinelearner::sklearn$svm$`__dict__`[[model_name]]
   if (is.null(model_class)) model_class <- tisthemachinelearner::sklearn$tree$`__dict__`[[model_name]]
   if (is.null(model_class)) model_class <- tisthemachinelearner::sklearn$neighbors$`__dict__`[[model_name]]
+  if (is.null(model_class)) model_class <- tisthemachinelearner::sklearn$neural_network$`__dict__`[[model_name]]
+  if (is.null(model_class)) model_class <- tisthemachinelearner::sklearn$random_projection$`__dict__`[[model_name]]
+  if (is.null(model_class)) model_class <- tisthemachinelearner::sklearn$ensemble$`__dict__`[[model_name]]
+  if (is.null(model_class)) model_class <- tisthemachinelearner::sklearn$decomposition$`__dict__`[[model_name]]
+  if (is.null(model_class)) model_class <- tisthemachinelearner::sklearn$semi_supervised$`__dict__`[[model_name]]
   
   if (is.null(model_class)) {
     stop(sprintf("Model '%s' not found in common scikit-learn modules. Please check the model name.", model_name))
