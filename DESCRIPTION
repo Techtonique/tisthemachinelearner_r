@@ -1,7 +1,7 @@
 Package: tisthemachinelearner
 Type: Package
 Title: Lightweight interface to sklearn, nnetsauce and unifiedbooster with conformal prediction
-Version: 0.3.0
+Version: 0.3.1
 Authors@R: c(
     person(
       "T.", "Moudiki",
@@ -10,7 +10,7 @@ Authors@R: c(
     )
   )
 Description: Lightweight interface to Python packages sklearn, nnetsauce and unifiedbooster with conformal prediction.
-Date: 2025-04-18
+Date: 2025-07-21
 License: BSD_3_clause Clear + file LICENSE
 Encoding: UTF-8
 LazyData: true
@@ -25,7 +25,8 @@ Depends:
     Matrix
 Suggests: 
     MASS,
-    testthat
+    testthat,
+    misc 
 LinkingTo: Rcpp, RcppProgress
 RoxygenNote: 7.3.2
 SystemRequirements: Python (>= 3.6) with pip and virtualenv support
@@ -37,3 +38,4 @@ Config/reticulate:
       list(package = "scikit-learn")
     )
   )
+Remotes: thierrymoudiki/misc
