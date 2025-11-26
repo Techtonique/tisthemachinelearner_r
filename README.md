@@ -13,12 +13,12 @@ install.packages("tisthemachinelearner")
 ```R
 # ONE-TIME SETUP (in terminal)
 uv venv venv
-source venv/bin/activate  # or venv\Scripts\activate on Windows
+source venv/bin/activate
+uv pip install scikit-learn
 
-# ONE-TIME SETUP (in R)
+# or ONE-TIME SETUP (in R)
 library(tisthemachinelearner)
-setup_sklearn()
-
+setup_sklearn(venv_path = "./venv")
 
 # Load data
 data(mtcars)

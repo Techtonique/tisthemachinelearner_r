@@ -17,6 +17,14 @@ setup_sklearn <- function(venv_path = "venv") {
     )
   }
   
+  system2(
+    "uv",
+    c("venv", venv_path),
+    #env = paste0("VIRTUAL_ENV=", venv_abs),
+    stdout = TRUE,
+    stderr = TRUE
+  )
+  
   # Check if venv exists
   if (!dir.exists(venv_path)) {
     stop(
@@ -31,12 +39,12 @@ setup_sklearn <- function(venv_path = "venv") {
   # Install scikit-learn and dependencies using uv
   message("Installing scikit-learn and dependencies with uv...")
   
-  venv_abs <- normalizePath(venv_path, mustWork = TRUE)
+  #venv_abs <- normalizePath(venv_path, mustWork = TRUE)
   
   result <- system2(
     "uv",
     c("pip", "install", "scikit-learn", "numpy", "scipy"),
-    env = paste0("VIRTUAL_ENV=", venv_abs),
+    #env = paste0("VIRTUAL_ENV=", venv_abs),
     stdout = TRUE,
     stderr = TRUE
   )
