@@ -25,8 +25,8 @@ The `tisthemachinelearner` package provides a simple R interface to scikit-learn
 First, let's load the required packages:
 
 ```{r}
-library(tisthemachinelearner)
 library(reticulate)
+library(tisthemachinelearner)
 ```
 
 ## Data Preparation
