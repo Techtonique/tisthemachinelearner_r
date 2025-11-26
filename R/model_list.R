@@ -11,9 +11,20 @@
 #' @export
 #' 
 #' @examples
-#' model_list <- get_model_list()
-#' print(model_list$classifiers)
-get_model_list <- function() {
+#' 
+#' # model_list <- get_model_list()
+#' # print(model_list$classifiers)
+#' 
+get_model_list <- function(venv_path = "venv") {
+  
+  # Use the specified virtual environment
+  reticulate::use_python(paste0(venv_path, 
+                                "/bin/python3"))
+  
+  # Import sklearn (lazy load)
+  sklearn <- reticulate::import("sklearn", 
+                                delay_load = TRUE)
+  
   # Import required Python modules through reticulate
   sklearn_utils <- reticulate::import("sklearn.utils")
   sklearn_base <- reticulate::import("sklearn.base")
