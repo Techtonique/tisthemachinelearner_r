@@ -9,11 +9,17 @@ options(repos = c(techtonique = "https://r-packages.techtonique.net",
 install.packages("tisthemachinelearner")            
 ```
 
-```R
-library(tisthemachinelearner)
-```
 
 ```R
+# ONE-TIME SETUP (in terminal)
+uv venv venv
+source venv/bin/activate
+uv pip install scikit-learn
+
+# or ONE-TIME SETUP (in R)
+library(tisthemachinelearner)
+setup_sklearn(venv_path = "./venv")
+
 # Load data
 data(mtcars)
 head(mtcars)

@@ -5,10 +5,13 @@
 #' @param model_name Name of the sklearn model to use
 #' @param calibration Logical flag to indicate if calibration of residuals should be used
 #' @param seed Seed for the random number generator
+#' @param venv_path Path to Python virtual environment
 #' @param ... Additional parameters passed to the sklearn model
 #' @return A regressor object
 #' @export
 #' @examples
+#' 
+#' \dontrun{
 #' # Split features and target
 #' X <- as.matrix(mtcars[, -1])  # all columns except mpg
 #' y <- mtcars[, 1]              # mpg column
@@ -29,15 +32,21 @@
 #' 
 #' # Calculate RMSE
 #' (rmse <- sqrt(mean((predictions - y_test)^2)))
+#' }
 #' 
 regressor <- function(x, y, model_name, 
                       calibration = FALSE, 
                       seed = 42L, 
+                      venv_path = "./venv",
                       ...) {
   
-  # Use the virtual environment
-  #reticulate::use_virtualenv(tisthemachinelearner::VENV_PATH)
-  #sklearn <- reticulate::import("sklearn")
+  # Use the specified virtual environment
+  reticulate::use_virtualenv(venv_path, 
+                             required = TRUE)
+  
+  # Lazy load sklearn only when needed
+  sklearn <- reticulate::import("sklearn", 
+                                delay_load = TRUE)
   
   # Input validation
   if (!is.matrix(x) && !is.data.frame(x)) {
@@ -55,20 +64,20 @@ regressor <- function(x, y, model_name,
   # Get the model class from sklearn
   model_class <- NULL
   # Check common sklearn modules
-  if (is.null(model_class)) model_class <- tisthemachinelearner::sklearn$cross_decomposition$`__dict__`[[model_name]]
-  if (is.null(model_class)) model_class <- tisthemachinelearner::sklearn$isotonic$`__dict__`[[model_name]]
-  if (is.null(model_class)) model_class <- tisthemachinelearner::sklearn$kernel_ridge$`__dict__`[[model_name]]
-  if (is.null(model_class)) model_class <- tisthemachinelearner::sklearn$linear_model$`__dict__`[[model_name]]
-  if (is.null(model_class)) model_class <- tisthemachinelearner::sklearn$ensemble$`__dict__`[[model_name]]
-  if (is.null(model_class)) model_class <- tisthemachinelearner::sklearn$gaussian_process$`__dict__`[[model_name]]
-  if (is.null(model_class)) model_class <- tisthemachinelearner::sklearn$svm$`__dict__`[[model_name]]
-  if (is.null(model_class)) model_class <- tisthemachinelearner::sklearn$tree$`__dict__`[[model_name]]
-  if (is.null(model_class)) model_class <- tisthemachinelearner::sklearn$neighbors$`__dict__`[[model_name]]
-  if (is.null(model_class)) model_class <- tisthemachinelearner::sklearn$neural_network$`__dict__`[[model_name]]
-  if (is.null(model_class)) model_class <- tisthemachinelearner::sklearn$random_projection$`__dict__`[[model_name]]
-  if (is.null(model_class)) model_class <- tisthemachinelearner::sklearn$ensemble$`__dict__`[[model_name]]
-  if (is.null(model_class)) model_class <- tisthemachinelearner::sklearn$decomposition$`__dict__`[[model_name]]
-  if (is.null(model_class)) model_class <- tisthemachinelearner::sklearn$semi_supervised$`__dict__`[[model_name]]
+  if (is.null(model_class)) model_class <- sklearn$cross_decomposition$`__dict__`[[model_name]]
+  if (is.null(model_class)) model_class <- sklearn$isotonic$`__dict__`[[model_name]]
+  if (is.null(model_class)) model_class <- sklearn$kernel_ridge$`__dict__`[[model_name]]
+  if (is.null(model_class)) model_class <- sklearn$linear_model$`__dict__`[[model_name]]
+  if (is.null(model_class)) model_class <- sklearn$ensemble$`__dict__`[[model_name]]
+  if (is.null(model_class)) model_class <- sklearn$gaussian_process$`__dict__`[[model_name]]
+  if (is.null(model_class)) model_class <- sklearn$svm$`__dict__`[[model_name]]
+  if (is.null(model_class)) model_class <- sklearn$tree$`__dict__`[[model_name]]
+  if (is.null(model_class)) model_class <- sklearn$neighbors$`__dict__`[[model_name]]
+  if (is.null(model_class)) model_class <- sklearn$neural_network$`__dict__`[[model_name]]
+  if (is.null(model_class)) model_class <- sklearn$random_projection$`__dict__`[[model_name]]
+  if (is.null(model_class)) model_class <- sklearn$ensemble$`__dict__`[[model_name]]
+  if (is.null(model_class)) model_class <- sklearn$decomposition$`__dict__`[[model_name]]
+  if (is.null(model_class)) model_class <- sklearn$semi_supervised$`__dict__`[[model_name]]
   
   if (is.null(model_class)) {
     stop(sprintf("Model '%s' not found in common scikit-learn modules. Please check the model name.", model_name))
@@ -202,9 +211,19 @@ predict.regressor <- function(object, newdata, nsim = 250L, level = 95,
 simulate.regressor <- function(object, newdata, nsim = 250L, level = 95,
                                method = c("surrogate", "bootstrap", 
                                           "tsbootstrap", "bayesian"),
-                               seed = 123, ...) {
+                               seed = 123, 
+                               venv_path = "./venv",
+                               ...) {
   set.seed(seed)  
   method <- match.arg(method)  
+  
+  # Use the specified virtual environment
+  reticulate::use_virtualenv(venv_path, 
+                             required = TRUE)
+  
+  # Lazy load sklearn only when needed
+  sklearn <- reticulate::import("sklearn", 
+                                delay_load = TRUE)
   
   if (method == "bayesian") {
     pred <- as.vector(object$model$predict(newdata, return_std=TRUE))

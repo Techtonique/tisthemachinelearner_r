@@ -20,19 +20,26 @@ Regressor <- R6::R6Class(
     #' Create a new Regressor object
     #' @param model_name Name of the sklearn model to use
     #' @param ... Additional parameters passed to the sklearn model
-    initialize = function(model_name, ...) {
+    initialize = function(model_name, 
+                          venv_path = "./venv",
+                          ...) {
       # Get the model class from sklearn
       model_class <- NULL
+      # Use the specified virtual environment
+      reticulate::use_virtualenv(venv_path, 
+                                 required = TRUE)
+      # Import sklearn (lazy load)
+      sklearn <- reticulate::import("sklearn", delay_load = TRUE)
       # Check common sklearn modules
-      if (is.null(model_class)) model_class <- tisthemachinelearner::sklearn$cross_decomposition$`__dict__`[[model_name]]
-      if (is.null(model_class)) model_class <- tisthemachinelearner::sklearn$isotonic$`__dict__`[[model_name]]
-      if (is.null(model_class)) model_class <- tisthemachinelearner::sklearn$kernel_ridge$`__dict__`[[model_name]]
-      if (is.null(model_class)) model_class <- tisthemachinelearner::sklearn$linear_model$`__dict__`[[model_name]]
-      if (is.null(model_class)) model_class <- tisthemachinelearner::sklearn$ensemble$`__dict__`[[model_name]]
-      if (is.null(model_class)) model_class <- tisthemachinelearner::sklearn$gaussian_process$`__dict__`[[model_name]]
-      if (is.null(model_class)) model_class <- tisthemachinelearner::sklearn$svm$`__dict__`[[model_name]]
-      if (is.null(model_class)) model_class <- tisthemachinelearner::sklearn$tree$`__dict__`[[model_name]]
-      if (is.null(model_class)) model_class <- tisthemachinelearner::sklearn$neighbors$`__dict__`[[model_name]]
+      if (is.null(model_class)) model_class <- sklearn$cross_decomposition$`__dict__`[[model_name]]
+      if (is.null(model_class)) model_class <- sklearn$isotonic$`__dict__`[[model_name]]
+      if (is.null(model_class)) model_class <- sklearn$kernel_ridge$`__dict__`[[model_name]]
+      if (is.null(model_class)) model_class <- sklearn$linear_model$`__dict__`[[model_name]]
+      if (is.null(model_class)) model_class <- sklearn$ensemble$`__dict__`[[model_name]]
+      if (is.null(model_class)) model_class <- sklearn$gaussian_process$`__dict__`[[model_name]]
+      if (is.null(model_class)) model_class <- sklearn$svm$`__dict__`[[model_name]]
+      if (is.null(model_class)) model_class <- sklearn$tree$`__dict__`[[model_name]]
+      if (is.null(model_class)) model_class <- sklearn$neighbors$`__dict__`[[model_name]]
       
       if (is.null(model_class)) {
         stop(sprintf("Model '%s' not found in common scikit-learn modules. Please check the model name.", model_name))
