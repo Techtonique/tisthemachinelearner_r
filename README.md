@@ -4,26 +4,24 @@
 ![Downloads](https://r-packages.techtonique.net/badges/downloads/last-month/tisthemachinelearner.svg)
 ![Total Downloads](https://r-packages.techtonique.net/badges/downloads/grand-total/tisthemachinelearner.svg?color=brightgreen)
 
-
 R interface to scikit-learn through (through Python tisthemachinelearner) with S3 and R6 interfaces.
 
-```R
-options(repos = c(techtonique = "https://r-packages.techtonique.net",
-                    CRAN = "https://cloud.r-project.org"))
-                    
-install.packages("tisthemachinelearner")            
-```
+## 1. Command line 
 
-
-```R
-# ONE-TIME SETUP (in terminal)
+```bash
+# pip install uv # if necessary
 uv venv venv
 source venv/bin/activate
-uv pip install scikit-learn
+uv pip install pip scikit-learn
+```
 
-# or ONE-TIME SETUP (in R)
+## 2. Use it
+
+```R
+install.packages("devtools")
+devtools::install_github("Techtonique/tisthemachinelearner_r")
+
 library(tisthemachinelearner)
-tisthemachinelearner::setup_sklearn(venv_path = "./venv")
 
 # Load data
 data(mtcars)
