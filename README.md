@@ -20,7 +20,7 @@ uv pip install scikit-learn
 
 # or ONE-TIME SETUP (in R)
 library(tisthemachinelearner)
-setup_sklearn(venv_path = "./venv")
+tisthemachinelearner::setup_sklearn(venv_path = "./venv")
 
 # Load data
 data(mtcars)
