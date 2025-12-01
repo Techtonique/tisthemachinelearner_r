@@ -1,6 +1,9 @@
 # tisthemachinelearner 
 
 [![Documentation](https://img.shields.io/badge/documentation-is_here-green)](https://docs.techtonique.net/tisthemachinelearner_r/index.html)
+![Downloads](https://r-packages.techtonique.net/badges/downloads/last-month/tisthemachinelearner.svg)
+![Total Downloads](https://r-packages.techtonique.net/badges/downloads/grand-total/tisthemachinelearner.svg?color=brightgreen)
+
 
 R interface to scikit-learn through (through Python tisthemachinelearner) with S3 and R6 interfaces.
 
