@@ -43,7 +43,7 @@ setup_sklearn <- function(venv_path = "venv") {
   
   result <- system2(
     "uv",
-    c("pip", "install", "scikit-learn", "numpy", "scipy"),
+    c("pip", "install", "pip", "scikit-learn", "numpy", "scipy"),
     #env = paste0("VIRTUAL_ENV=", venv_abs),
     stdout = TRUE,
     stderr = TRUE
