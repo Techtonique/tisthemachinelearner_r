@@ -38,6 +38,8 @@ boosterCpp(
 \item{show_progress}{Whether to show progress bar}
 
 \item{verbose}{Whether to print detailed output}
+
+\item{venv_path}{Path to the virtual environment}
 }
 \description{
 Fit a boosting model with neural network feature transformation

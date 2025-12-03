@@ -10,6 +10,7 @@
 #' @param seed Random seed
 #' @param show_progress Whether to show progress bar
 #' @param verbose Whether to print detailed output
+#' @param venv_path Path to the virtual environment
 #' @param ... Additional arguments passed to the regressor
 #' 
 #' @export

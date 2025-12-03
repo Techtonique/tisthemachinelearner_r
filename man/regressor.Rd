@@ -40,6 +40,8 @@ Create a new Regressor object
 \describe{
 \item{\code{model_name}}{Name of the sklearn model to use}
 
+\item{\code{venv_path}}{Path to the virtual environment}
+
 \item{\code{...}}{Additional parameters passed to the sklearn model}
 }
 \if{html}{\out{</div>}}

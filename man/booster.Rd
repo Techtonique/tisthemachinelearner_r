@@ -42,7 +42,8 @@ Create a new Booster object
   calibration = FALSE,
   seed = 123L,
   show_progress = TRUE,
-  verbose = FALSE
+  verbose = FALSE,
+  venv_path = "./venv"
 )}\if{html}{\out{</div>}}
 }
 
@@ -64,6 +65,8 @@ Create a new Booster object
 \item{\code{show_progress}}{Whether to show progress bar}
 
 \item{\code{verbose}}{Whether to print detailed output}
+
+\item{\code{venv_path}}{Path to the virtual environment}
 }
 \if{html}{\out{</div>}}
 }

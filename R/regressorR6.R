@@ -19,6 +19,7 @@ Regressor <- R6::R6Class(
     #' @description
     #' Create a new Regressor object
     #' @param model_name Name of the sklearn model to use
+    #' @param venv_path Path to the virtual environment
     #' @param ... Additional parameters passed to the sklearn model
     initialize = function(model_name, 
                           venv_path = "./venv",

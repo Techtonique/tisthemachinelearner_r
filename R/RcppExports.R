@@ -13,6 +13,7 @@
 #' @param seed Random seed
 #' @param show_progress Whether to show progress bar
 #' @param verbose Whether to print detailed output
+#' @param venv_path Path to the virtual environment
 #'
 #' @export
 boosterCpp <- function(x, y, model_name, n_estimators = 100L, learning_rate = 0.1, tolerance = 1e-4, calibration = FALSE, seed = 123L, show_progress = TRUE, verbose = FALSE, venv_path = "./venv") {

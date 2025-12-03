@@ -30,6 +30,7 @@ Booster <- R6::R6Class(
     #' @param seed Random seed
     #' @param show_progress Whether to show progress bar
     #' @param verbose Whether to print detailed output
+    #' @param venv_path Path to the virtual environment
     initialize = function(model_name = "ExtraTreeRegressor", 
                          n_estimators = 100L,
                          learning_rate = 0.1,
@@ -37,7 +38,8 @@ Booster <- R6::R6Class(
                          calibration = FALSE,
                          seed = 123L,
                          show_progress = TRUE,
-                         verbose = FALSE) {
+                         verbose = FALSE, 
+                         venv_path = "./venv") {
       private$.model_name <- model_name
       private$.n_estimators <- n_estimators
       private$.learning_rate <- learning_rate
@@ -46,6 +48,7 @@ Booster <- R6::R6Class(
       private$.seed <- seed
       private$.show_progress <- show_progress
       private$.verbose <- verbose
+      private$.venv_path <- venv_path
     },
     
     #' @description
@@ -73,7 +76,8 @@ Booster <- R6::R6Class(
         private$.calibration,
         private$.seed,
         private$.show_progress,
-        private$.verbose
+        private$.verbose,
+        private$.venv_path
       )
       
       self$estimators <- result$estimators
@@ -113,6 +117,7 @@ Booster <- R6::R6Class(
     .calibration = NULL,
     .seed = NULL,
     .show_progress = NULL,
-    .verbose = NULL
+    .verbose = NULL,
+    .venv_path = NULL
   )
 ) 
