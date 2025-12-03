@@ -34,7 +34,8 @@ booster <- function(x, y, model_name="ExtraTreeRegressor",
     
     boosterCpp(as.matrix(x), y, model_name, 
                n_estimators, learning_rate, tolerance,
-               calibration, seed, show_progress, verbose)
+               calibration, seed, show_progress, verbose, 
+               venv_path)
 }
 
 #' Predict using a boosted model

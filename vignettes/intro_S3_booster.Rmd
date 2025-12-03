@@ -60,7 +60,8 @@ reg_booster <- tisthemachinelearner::booster(X_train, y_train, "ExtraTreeRegress
                                             n_estimators = 100L,
                                             learning_rate = 0.1,
                                             show_progress = TRUE,
-                                            verbose = TRUE)
+                                            verbose = TRUE, 
+                                            venv_path = "../venv")
 time <- proc.time()[3] - time
 cat("Time taken:", time, "seconds\n")
 

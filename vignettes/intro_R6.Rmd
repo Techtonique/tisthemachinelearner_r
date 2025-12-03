@@ -1,5 +1,5 @@
 ---
-title: "Introduction to tisthemachinelearner, R6 interface"
+title: "Introduction to tisthemachinelearner R6 interface"
 author: "T. Moudiki"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
@@ -51,7 +51,7 @@ y_train <- y[train_idx]
 y_test <- y[-train_idx]
 
 # R6 interface
-model <- Regressor$new(model_name = "LinearRegression")
+model <- Regressor$new(model_name = "LinearRegression", venv_path = "../venv")
 start <- proc.time()[3]
 model$fit(X_train, y_train)
 end <- proc.time()[3]
@@ -65,7 +65,7 @@ print(preds)
 
 # S3 interface
 start <- proc.time()[3]
-model <- regressor(X_train, y_train, model_name = "LinearRegression")
+model <- regressor(X_train, y_train, model_name = "LinearRegression", venv_path = "../venv")
 end <- proc.time()[3]
 cat("Time taken:", end - start, "seconds\n")
 

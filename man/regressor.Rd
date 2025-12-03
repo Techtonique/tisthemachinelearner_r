@@ -32,7 +32,7 @@ An R6 Class that provides an interface to scikit-learn regression models.
 \subsection{Method \code{new()}}{
 Create a new Regressor object
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Regressor$new(model_name, ...)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Regressor$new(model_name, venv_path = "./venv", ...)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{

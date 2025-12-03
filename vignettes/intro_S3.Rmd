@@ -58,7 +58,7 @@ Let's start with a simple linear regression model:
 ```{r}
 # Fit linear regression model
 start <- proc.time()[3]
-reg_linear <- tisthemachinelearner::regressor(X_train, y_train, "LinearRegression")
+reg_linear <- tisthemachinelearner::regressor(X_train, y_train, "LinearRegression", venv_path = "../venv")
 end <- proc.time()[3]
 cat("Time taken:", end - start, "seconds\n")
 
@@ -88,7 +88,7 @@ Now let's try Ridge regression with cross-validation for hyperparameter tuning:
 ```{r}
 # Fit ridge regression model
 start <- proc.time()[3]
-reg_ridge <- regressor(X_train, y_train, "RidgeCV")
+reg_ridge <- regressor(X_train, y_train, "RidgeCV", venv_path = "../venv")
 end <- proc.time()[3]
 cat("Time taken:", end - start, "seconds\n")
 

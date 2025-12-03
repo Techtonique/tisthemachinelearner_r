@@ -4,7 +4,7 @@
 \alias{get_model_list}
 \title{Get a list of all models in scikit-learn}
 \usage{
-get_model_list()
+get_model_list(venv_path = "venv")
 }
 \value{
 A list with two elements:
@@ -17,6 +17,8 @@ It imports the necessary Python modules and retrieves all estimators,
 filtering them into classifiers and regressors.
 }
 \examples{
-model_list <- get_model_list()
-print(model_list$classifiers)
+
+# model_list <- get_model_list()
+# print(model_list$classifiers)
+
 }

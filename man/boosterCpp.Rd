@@ -14,7 +14,8 @@ boosterCpp(
   calibration = FALSE,
   seed = 123L,
   show_progress = TRUE,
-  verbose = FALSE
+  verbose = FALSE,
+  venv_path = "./venv"
 )
 }
 \arguments{

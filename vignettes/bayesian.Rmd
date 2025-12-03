@@ -51,7 +51,7 @@ y_train <- y[train_idx]
 y_test <- y[-train_idx]
 
 # R6 interface
-model <- Regressor$new(model_name = "BayesianRidge")
+model <- Regressor$new(model_name = "BayesianRidge", venv_path = "../venv")
 start <- proc.time()[3]
 model$fit(X_train, y_train)
 end <- proc.time()[3]
@@ -63,7 +63,7 @@ end <- proc.time()[3]
 cat("Time taken:", end - start, "seconds\n")
 print(preds)
 
-model <- Regressor$new(model_name = "ARDRegression")
+model <- Regressor$new(model_name = "ARDRegression", venv_path = "../venv")
 start <- proc.time()[3]
 model$fit(X_train, y_train)
 end <- proc.time()[3]

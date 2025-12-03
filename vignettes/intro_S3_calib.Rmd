@@ -58,7 +58,7 @@ Now let's try Ridge regression with cross-validation for hyperparameter tuning:
 start <- proc.time()[3]
 reg_ridge <- tisthemachinelearner::regressor(X_train, y_train, "Ridge", 
                       #alphas = c(0.01, 0.1, 1, 10),
-                      calibration = TRUE)
+                      calibration = TRUE, venv_path = "../venv")
 end <- proc.time()[3]
 cat("Time taken:", end - start, "seconds\n")
 

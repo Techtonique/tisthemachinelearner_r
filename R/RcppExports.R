@@ -15,8 +15,8 @@
 #' @param verbose Whether to print detailed output
 #'
 #' @export
-boosterCpp <- function(x, y, model_name, n_estimators = 100L, learning_rate = 0.1, tolerance = 1e-4, calibration = FALSE, seed = 123L, show_progress = TRUE, verbose = FALSE) {
-    .Call(`_tisthemachinelearner_boosterCpp`, x, y, model_name, n_estimators, learning_rate, tolerance, calibration, seed, show_progress, verbose)
+boosterCpp <- function(x, y, model_name, n_estimators = 100L, learning_rate = 0.1, tolerance = 1e-4, calibration = FALSE, seed = 123L, show_progress = TRUE, verbose = FALSE, venv_path = "./venv") {
+    .Call(`_tisthemachinelearner_boosterCpp`, x, y, model_name, n_estimators, learning_rate, tolerance, calibration, seed, show_progress, verbose, venv_path)
 }
 
 #' Predict using a boosted model

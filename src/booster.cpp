@@ -29,7 +29,8 @@ List boosterCpp(NumericMatrix x,
                 bool calibration = false,
                 int seed = 123,
                 bool show_progress = true,
-                bool verbose = false) {
+                bool verbose = false, 
+                String venv_path = "./venv") {
         
     // Set random seed
     Environment base("package:base");
@@ -69,7 +70,8 @@ List boosterCpp(NumericMatrix x,
         List model = regressor(x, e,  // Note: using residuals 'e' instead of 'y'
                              model_name, 
                              _["calibration"] = calibration,
-                             _["seed"] = seed + i * 100);
+                             _["seed"] = seed + i * 100, 
+                             venv_path = venv_path);
         
         // Get predictions
         NumericVector y_pred = predict(model, x);

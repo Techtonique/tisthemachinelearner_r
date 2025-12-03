@@ -11,8 +11,8 @@ Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
 #endif
 
 // boosterCpp
-List boosterCpp(NumericMatrix x, NumericVector y, String model_name, int n_estimators, double learning_rate, double tolerance, bool calibration, int seed, bool show_progress, bool verbose);
-RcppExport SEXP _tisthemachinelearner_boosterCpp(SEXP xSEXP, SEXP ySEXP, SEXP model_nameSEXP, SEXP n_estimatorsSEXP, SEXP learning_rateSEXP, SEXP toleranceSEXP, SEXP calibrationSEXP, SEXP seedSEXP, SEXP show_progressSEXP, SEXP verboseSEXP) {
+List boosterCpp(NumericMatrix x, NumericVector y, String model_name, int n_estimators, double learning_rate, double tolerance, bool calibration, int seed, bool show_progress, bool verbose, String venv_path);
+RcppExport SEXP _tisthemachinelearner_boosterCpp(SEXP xSEXP, SEXP ySEXP, SEXP model_nameSEXP, SEXP n_estimatorsSEXP, SEXP learning_rateSEXP, SEXP toleranceSEXP, SEXP calibrationSEXP, SEXP seedSEXP, SEXP show_progressSEXP, SEXP verboseSEXP, SEXP venv_pathSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -26,7 +26,8 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< int >::type seed(seedSEXP);
     Rcpp::traits::input_parameter< bool >::type show_progress(show_progressSEXP);
     Rcpp::traits::input_parameter< bool >::type verbose(verboseSEXP);
-    rcpp_result_gen = Rcpp::wrap(boosterCpp(x, y, model_name, n_estimators, learning_rate, tolerance, calibration, seed, show_progress, verbose));
+    Rcpp::traits::input_parameter< String >::type venv_path(venv_pathSEXP);
+    rcpp_result_gen = Rcpp::wrap(boosterCpp(x, y, model_name, n_estimators, learning_rate, tolerance, calibration, seed, show_progress, verbose, venv_path));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -44,7 +45,7 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_tisthemachinelearner_boosterCpp", (DL_FUNC) &_tisthemachinelearner_boosterCpp, 10},
+    {"_tisthemachinelearner_boosterCpp", (DL_FUNC) &_tisthemachinelearner_boosterCpp, 11},
     {"_tisthemachinelearner_predictBoosterCpp", (DL_FUNC) &_tisthemachinelearner_predictBoosterCpp, 2},
     {NULL, NULL, 0}
 };
