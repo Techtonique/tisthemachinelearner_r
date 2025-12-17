@@ -40,13 +40,8 @@ regressor <- function(x, y, model_name,
                       venv_path = "./venv",
                       ...) {
   
-  # Use the specified virtual environment
-  reticulate::use_virtualenv(venv_path, 
-                             required = TRUE)
-  
   # Lazy load sklearn only when needed
-  sklearn <- reticulate::import("sklearn", 
-                                delay_load = TRUE)
+  sklearn <- get_sklearn(venv_path)
   
   # Input validation
   if (!is.matrix(x) && !is.data.frame(x)) {
@@ -216,14 +211,6 @@ simulate.regressor <- function(object, newdata, nsim = 250L, level = 95,
                                ...) {
   set.seed(seed)  
   method <- match.arg(method)  
-  
-  # Use the specified virtual environment
-  reticulate::use_virtualenv(venv_path, 
-                             required = TRUE)
-  
-  # Lazy load sklearn only when needed
-  sklearn <- reticulate::import("sklearn", 
-                                delay_load = TRUE)
   
   if (method == "bayesian") {
     pred <- as.vector(object$model$predict(newdata, return_std=TRUE))

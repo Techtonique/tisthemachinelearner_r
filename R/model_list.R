@@ -17,17 +17,12 @@
 #' 
 get_model_list <- function(venv_path = "venv") {
   
-  # Use the specified virtual environment
-  reticulate::use_python(paste0(venv_path, 
-                                "/bin/python3"))
-  
-  # Import sklearn (lazy load)
-  sklearn <- reticulate::import("sklearn", 
-                                delay_load = TRUE)
+  # Lazy load sklearn only when needed
+  sklearn <- get_sklearn(venv_path)
   
   # Import required Python modules through reticulate
-  sklearn_utils <- reticulate::import("sklearn.utils")
-  sklearn_base <- reticulate::import("sklearn.base")
+  sklearn_utils <- get_sklearn_utils(venv_path)
+  sklearn_base <- get_sklearn_base(venv_path)
   
   # Get all estimators from scikit-learn
   estimators <- sklearn_utils$all_estimators()

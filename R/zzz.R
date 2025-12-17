@@ -7,8 +7,7 @@
     packageStartupMessage(
       "To use this package:\n",
       "  1. Create venv: uv venv venv\n",
-      "  2. Activate: source venv/bin/activate\n",
-      "  3. Setup: setup_sklearn()"
+      "  2. Activate: source venv/bin/activate\n"
     )
   }
 }

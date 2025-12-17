@@ -25,14 +25,6 @@ booster <- function(x, y, model_name="ExtraTreeRegressor",
                     venv_path = "./venv",
                     ...) {  
   
-    # Use the specified virtual environment
-    reticulate::use_virtualenv(venv_path, 
-                               required = TRUE)
-
-    # Lazy load sklearn only when needed
-    sklearn <- reticulate::import("sklearn", 
-                                  delay_load = TRUE)
-    
     boosterCpp(as.matrix(x), y, model_name, 
                n_estimators, learning_rate, tolerance,
                calibration, seed, show_progress, verbose, 

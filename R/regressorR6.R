@@ -26,11 +26,8 @@ Regressor <- R6::R6Class(
                           ...) {
       # Get the model class from sklearn
       model_class <- NULL
-      # Use the specified virtual environment
-      reticulate::use_virtualenv(venv_path, 
-                                 required = TRUE)
-      # Import sklearn (lazy load)
-      sklearn <- reticulate::import("sklearn", delay_load = TRUE)
+      # Lazy load sklearn only when needed
+      sklearn <- get_sklearn(venv_path)
       # Check common sklearn modules
       if (is.null(model_class)) model_class <- sklearn$cross_decomposition$`__dict__`[[model_name]]
       if (is.null(model_class)) model_class <- sklearn$isotonic$`__dict__`[[model_name]]

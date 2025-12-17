@@ -1,7 +1,7 @@
 Package: tisthemachinelearner
 Type: Package
 Title: Lightweight interface to sklearn, nnetsauce and unifiedbooster with conformal prediction
-Version: 0.8.5
+Version: 0.9.0
 Authors@R: c(
     person(
       "T.", "Moudiki",
@@ -10,7 +10,7 @@ Authors@R: c(
     )
   )
 Description: Lightweight interface to Python packages sklearn, nnetsauce and unifiedbooster with conformal prediction.
-Date: 2025-11-26
+Date: 2025-12-17
 License: BSD_3_clause Clear + file LICENSE
 Encoding: UTF-8
 LazyData: true
@@ -22,7 +22,8 @@ Imports:
 Depends: 
     R (>= 3.5.0),
     reticulate (>= 1.18),
-    Matrix
+    Matrix,
+    memoise
 Suggests: 
     MASS,
     testthat,

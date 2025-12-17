@@ -18,8 +18,8 @@ uv pip install pip scikit-learn
 ## 2. Use it
 
 ```R
-install.packages("devtools")
-devtools::install_github("Techtonique/tisthemachinelearner_r")
+install.packages("remotes")
+remotes::install_github("Techtonique/tisthemachinelearner_r")
 
 library(tisthemachinelearner)
 
