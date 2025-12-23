@@ -22,8 +22,7 @@ Imports:
 Depends: 
     R (>= 3.5.0),
     reticulate (>= 1.18),
-    Matrix,
-    memoise
+    Matrix
 Suggests: 
     MASS,
     testthat,
