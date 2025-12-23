@@ -15,7 +15,7 @@
 #' # model_list <- get_model_list()
 #' # print(model_list$classifiers)
 #' 
-get_model_list <- function(venv_path = "venv") {
+get_model_list <- function(venv_path = "./venv") {
   
   # Lazy load sklearn only when needed
   sklearn <- get_sklearn(venv_path)
