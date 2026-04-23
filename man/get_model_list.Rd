@@ -4,7 +4,7 @@
 \alias{get_model_list}
 \title{Get a list of all models in scikit-learn}
 \usage{
-get_model_list(venv_path = "venv")
+get_model_list(venv_path = "./venv")
 }
 \value{
 A list with two elements:

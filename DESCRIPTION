@@ -26,7 +26,8 @@ Depends:
 Suggests: 
     MASS,
     testthat,
-    misc 
+    misc,
+    knitr
 LinkingTo: Rcpp, RcppProgress
 RoxygenNote: 7.3.2
 SystemRequirements: Python (>= 3.6) with pip and virtualenv support

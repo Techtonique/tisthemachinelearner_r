@@ -33,7 +33,7 @@ library(tisthemachinelearner)
 
 We'll use the classic `mtcars` dataset to predict miles per gallon (mpg) based on other car characteristics:
 
-```{r}
+```{r, eval=FALSE}
 # Load data
 data(mtcars)
 head(mtcars)

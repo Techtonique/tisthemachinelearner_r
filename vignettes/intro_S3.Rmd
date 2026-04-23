@@ -33,7 +33,7 @@ library(tisthemachinelearner)
 
 We'll use the classic `mtcars` dataset to predict miles per gallon (mpg) based on other car characteristics:
 
-```{r}
+```{r, eval=FALSE}
 # Load data
 data(mtcars)
 head(mtcars)
@@ -55,7 +55,7 @@ y_test <- y[-train_idx]
 
 Let's start with a simple linear regression model:
 
-```{r}
+```{r, eval=FALSE}
 # Fit linear regression model
 start <- proc.time()[3]
 reg_linear <- tisthemachinelearner::regressor(X_train, y_train, "LinearRegression", venv_path = "../venv")
@@ -85,7 +85,7 @@ print(results)
 
 Now let's try Ridge regression with cross-validation for hyperparameter tuning:
 
-```{r}
+```{r, eval=FALSE}
 # Fit ridge regression model
 start <- proc.time()[3]
 reg_ridge <- regressor(X_train, y_train, "RidgeCV", venv_path = "../venv")
@@ -107,7 +107,7 @@ cat("Ridge Regression RMSE:", rmse_ridge, "\n")
 
 Let's visualize how well our predictions match the actual values:
 
-```{r, fig.width=10, fig.height=5}
+```{r, fig.width=10, fig.height=5, eval=FALSE}
 # Create scatter plot of actual vs predicted values
 par(mfrow = c(1, 2))
 
@@ -132,7 +132,7 @@ abline(a = 0, b = 1, col = "red", lty = 2)
 
 Compare the performance of both models:
 
-```{r}
+```{r, eval=FALSE}
 comparison <- data.frame(
   Model = c("Linear Regression", "Ridge Regression"),
   RMSE = c(rmse, rmse_ridge)

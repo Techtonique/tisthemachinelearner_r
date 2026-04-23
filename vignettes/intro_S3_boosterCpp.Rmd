@@ -33,7 +33,7 @@ library(reticulate)
 
 We'll use the classic `mtcars` dataset to predict miles per gallon (mpg) based on other car characteristics:
 
-```{r}
+```{r, eval=FALSE}
 # Load data
 
 # Split features and target
@@ -53,7 +53,7 @@ y_test <- y[-train_idx]
 
 Now let's try Ridge regression with cross-validation for hyperparameter tuning:
 
-```{r}
+```{r, eval=FALSE}
 # Fit booster model
 time <- proc.time()[3]
 reg_booster <- tisthemachinelearner::booster(X_train, y_train, "ExtraTreeRegressor",
