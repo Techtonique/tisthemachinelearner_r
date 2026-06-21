@@ -17,6 +17,8 @@ uv pip install pip scikit-learn
 
 ## 2. Use it
 
+See also [https://thierrymoudiki.github.io/blog/2026/06/21/r/tisthemllearner](https://thierrymoudiki.github.io/blog/2026/06/21/r/tisthemllearner). 
+
 ```R
 install.packages("remotes")
 remotes::install_github("Techtonique/tisthemachinelearner_r")
