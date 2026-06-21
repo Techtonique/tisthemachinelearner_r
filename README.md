@@ -51,4 +51,7 @@ preds <- predict(model, X_test)
 print(preds)
 ```
 
+## Acknowledgments
 
+This software contains code derived from [scikit-learn](https://scikit-learn.org/), 
+which is licensed under the BSD 3-Clause License. See [NOTICE](NOTICE) file for details.
